@@ -1,0 +1,1986 @@
+<!doctype html>
+<html lang="en">
+  <!-- ============================================================
+     HEAD — Meta, Fonts, Tailwind CDN, Custom CSS Variables
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dhruv Kashyap Portfolio</title>
+    <meta
+      name="description"
+      content="Backend & Full-Stack Software Engineer specializing in AI-powered systems, RAG pipelines, and production-grade APIs."
+    />
+
+    <!-- Google Fonts: Cormorant Garamond (serif display) + DM Sans (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              emerald: {
+                950: "#051A15",
+                900: "#071f18",
+                800: "#0a2e20",
+                700: "#0f4030",
+                600: "#166642",
+              },
+              gold: {
+                DEFAULT: "#C9A84C",
+                light: "#E2C97E",
+                dim: "#8a6e2f",
+                muted: "#5a4a20",
+              },
+              alabaster: "#F5F0E8",
+              mahogany: "#2B1810",
+            },
+            fontFamily: {
+              serif: ["Cormorant Garamond", "Georgia", "serif"],
+              sans: ["DM Sans", "system-ui", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- ============================================================
+       CUSTOM CSS — Variables, animations, custom components
+       ============================================================ -->
+    <style>
+      /* Root variables */
+      :root {
+        --bg-primary: #051a15;
+        --bg-secondary: #071f18;
+        --bg-card: #0a2418;
+        --gold: #c9a84c;
+        --gold-light: #e2c97e;
+        --gold-dim: #8a6e2f;
+        --alabaster: #f5f0e8;
+        --text-muted: #7a9e8a;
+        --border-subtle: rgba(201, 168, 76, 0.15);
+      }
+
+      /* ─── Base reset ─── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg-primary);
+        color: var(--alabaster);
+        font-family: "DM Sans", sans-serif;
+        font-weight: 300;
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      /* ─── Touch devices: disable custom cursor ─── */
+      @media (pointer: coarse) {
+        body {
+          cursor: auto;
+        }
+        #cursor-outer,
+        #cursor-inner {
+          display: none !important;
+        }
+      }
+
+      /* ─── Focus states for accessibility ─── */
+      .cta-btn:focus-visible,
+      .skill-badge:focus-visible,
+      a:focus-visible,
+      button:focus-visible {
+        outline: 2px solid var(--gold);
+        outline-offset: 2px;
+      }
+
+      /* ─── GitHub button (reusable component) ─── */
+      .github-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.55rem 1.2rem;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.72rem;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        border: 1px solid rgba(201, 168, 76, 0.25);
+        border-radius: 3px;
+        background: rgba(201, 168, 76, 0.04);
+        text-decoration: none;
+        transition:
+          background 0.3s,
+          border-color 0.35s,
+          box-shadow 0.35s,
+          transform 0.25s;
+        position: relative;
+        overflow: hidden;
+      }
+      .github-btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(201, 168, 76, 0.12) 0%,
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 0.35s;
+      }
+      .github-btn:hover {
+        background: rgba(201, 168, 76, 0.1);
+        border-color: rgba(201, 168, 76, 0.5);
+        box-shadow: 0 0 20px rgba(201, 168, 76, 0.08);
+        transform: translateY(-1px);
+      }
+      .github-btn:hover::before {
+        opacity: 1;
+      }
+      .github-btn:active {
+        transform: translateY(0);
+      }
+      .github-btn svg {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+        position: relative;
+        z-index: 1;
+      }
+      .github-btn span {
+        position: relative;
+        z-index: 1;
+      }
+
+      .github-btn--placeholder {
+        border-style: dashed;
+        opacity: 0.6;
+        cursor: default;
+      }
+      .github-btn--placeholder:hover {
+        transform: none;
+        box-shadow: none;
+        background: rgba(201, 168, 76, 0.04);
+        border-color: rgba(201, 168, 76, 0.25);
+      }
+
+      /* ─── Custom cursor ─── */
+      #cursor-outer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--gold);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.3s,
+          height 0.3s,
+          opacity 0.3s,
+          background 0.3s;
+      }
+      #cursor-inner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 6px;
+        height: 6px;
+        background: var(--gold);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+      }
+      body:has(a:hover) #cursor-outer,
+      body:has(button:hover) #cursor-outer {
+        width: 56px;
+        height: 56px;
+        background: rgba(201, 168, 76, 0.08);
+      }
+
+      /* ─── Scrollbar ─── */
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-primary);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--gold-dim);
+        border-radius: 2px;
+      }
+
+      /* ─── Nav ─── */
+      nav {
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+      }
+
+      /* ─── Hero canvas ─── */
+      #hero-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        display: block;
+      }
+      #hero-section {
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* ─── Gold shimmer line ─── */
+      .gold-line {
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          transparent
+        );
+      }
+
+      /* ─── Section reveal animation ─── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* ─── Skill badge ─── */
+      .skill-badge {
+        display: inline-block;
+        border: 1px solid var(--border-subtle);
+        background: rgba(201, 168, 76, 0.04);
+        color: var(--gold-light);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.35rem 0.9rem;
+        border-radius: 2px;
+        transition:
+          background 0.25s,
+          border-color 0.25s;
+      }
+      .skill-badge:hover {
+        background: rgba(201, 168, 76, 0.12);
+        border-color: rgba(201, 168, 76, 0.45);
+      }
+      @media (max-width: 640px) {
+        .skill-badge {
+          font-size: 0.75rem;
+          padding: 0.4rem 0.85rem;
+          min-height: 32px;
+          display: inline-flex;
+          align-items: center;
+        }
+      }
+
+      /* ─── Project card ─── */
+      .project-card {
+        background: linear-gradient(
+          135deg,
+          rgba(10, 36, 24, 0.95) 0%,
+          rgba(7, 31, 24, 0.95) 100%
+        );
+        border: 1px solid var(--border-subtle);
+        border-radius: 4px;
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.4s;
+        display: flex;
+        flex-direction: column;
+      }
+      .project-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          transparent
+        );
+        opacity: 0;
+        transition: opacity 0.4s;
+      }
+      .project-card:hover {
+        transform: translateY(-6px);
+        box-shadow:
+          0 32px 64px rgba(0, 0, 0, 0.5),
+          0 0 0 1px rgba(201, 168, 76, 0.2);
+      }
+      .project-card:hover::before {
+        opacity: 1;
+      }
+      @media (max-width: 640px) {
+        .project-card {
+          padding: 1.25rem !important;
+        }
+        .project-card:hover {
+          transform: translateY(-3px);
+        }
+      }
+
+      /* ─── Project number ─── */
+      .proj-num {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 5rem;
+        font-weight: 300;
+        color: rgba(201, 168, 76, 0.07);
+        line-height: 1;
+        letter-spacing: -0.02em;
+        position: absolute;
+        top: 0.5rem;
+        right: 1.2rem;
+        user-select: none;
+        transition: color 0.4s;
+      }
+      .project-card:hover .proj-num {
+        color: rgba(201, 168, 76, 0.14);
+      }
+
+      /* ─── Timeline (education / cert) ─── */
+      .timeline-item {
+        position: relative;
+        padding-left: 2rem;
+      }
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.45rem;
+        width: 8px;
+        height: 8px;
+        border: 1px solid var(--gold);
+        border-radius: 50%;
+        background: var(--bg-primary);
+      }
+      .timeline-item::after {
+        content: "";
+        position: absolute;
+        left: 3.5px;
+        top: 1.2rem;
+        width: 1px;
+        bottom: -1.5rem;
+        background: var(--border-subtle);
+      }
+      .timeline-item:last-child::after {
+        display: none;
+      }
+
+      /* ─── Floating gold particles ─── */
+      .particle {
+        position: absolute;
+        border-radius: 50%;
+        background: var(--gold);
+        opacity: 0;
+        animation: float-particle linear infinite;
+      }
+      @keyframes float-particle {
+        0% {
+          opacity: 0;
+          transform: translateY(0) scale(1);
+        }
+        10% {
+          opacity: 0.6;
+        }
+        90% {
+          opacity: 0.2;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-120px) scale(0.4);
+        }
+      }
+
+      /* ─── Section labels ─── */
+      .section-label {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.65rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+
+      /* ─── Noise overlay ─── */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        pointer-events: none;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 200px;
+      }
+
+      /* ─── Hero text ─── */
+      .hero-title {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 300;
+        font-style: italic;
+        line-height: 0.9;
+      }
+      .hero-title-name {
+        font-size: 3.5rem;
+      }
+      @media (min-width: 640px) {
+        .hero-title-name {
+          font-size: 4.5rem;
+        }
+      }
+      @media (min-width: 1024px) {
+        .hero-title-name {
+          font-size: 6rem;
+        }
+      }
+
+      /* ─── Gold gradient text ─── */
+      .gold-text {
+        background: linear-gradient(
+          135deg,
+          var(--gold-light) 0%,
+          var(--gold) 50%,
+          var(--gold-dim) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* ─── Anchor pill (CTA) ─── */
+      .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid var(--gold);
+        color: var(--gold-light);
+        padding: 0.7rem 2rem;
+        font-size: 0.8rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        transition:
+          background 0.3s,
+          color 0.3s;
+        position: relative;
+        overflow: hidden;
+        min-height: 44px;
+      }
+      .cta-btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--gold);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .cta-btn:hover::before {
+        transform: scaleX(1);
+      }
+      .cta-btn:hover {
+        color: var(--bg-primary);
+      }
+      .cta-btn span {
+        position: relative;
+        z-index: 1;
+      }
+      @media (max-width: 640px) {
+        .cta-btn {
+          padding: 0.7rem 1.4rem;
+          font-size: 0.75rem;
+          width: 100%;
+          justify-content: center;
+        }
+      }
+
+      /* ─── Contact form ─── */
+      .form-input {
+        width: 100%;
+        background: rgba(201, 168, 76, 0.04);
+        border: 1px solid var(--border-subtle);
+        color: var(--alabaster);
+        padding: 0.85rem 1.2rem;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.9rem;
+        outline: none;
+        transition: border-color 0.3s;
+        border-radius: 2px;
+      }
+      .form-input:focus {
+        border-color: rgba(201, 168, 76, 0.5);
+      }
+      .form-input::placeholder {
+        color: var(--text-muted);
+      }
+
+      /* ─── Stats ─── */
+      .stat-num {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 3.5rem;
+        font-weight: 300;
+        line-height: 1;
+      }
+      @media (max-width: 640px) {
+        .stat-num {
+          font-size: 2.5rem;
+        }
+      }
+
+      /* ─── Scroll indicator ─── */
+      @keyframes bounce-y {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(8px);
+        }
+      }
+      .scroll-hint {
+        animation: bounce-y 2s ease-in-out infinite;
+      }
+
+      /* ─── Horizontal rule ornament ─── */
+      .ornament {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .ornament::before,
+      .ornament::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border-subtle);
+      }
+
+      /* ─── Loading screen ─── */
+      #loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9000;
+        background: var(--bg-primary);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition:
+          opacity 0.8s 0.2s,
+          visibility 0.8s 0.2s;
+      }
+      #loader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      #loader-bar-track {
+        width: 200px;
+        height: 1px;
+        background: rgba(201, 168, 76, 0.2);
+        margin-top: 2rem;
+      }
+      #loader-bar {
+        height: 100%;
+        width: 0%;
+        background: var(--gold);
+        transition: width 0.05s linear;
+      }
+
+      /* ─── Mobile nav ─── */
+      #mobile-menu {
+        display: none;
+        flex-direction: column;
+        gap: 1.5rem;
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+        background: rgba(5, 26, 21, 0.97);
+        backdrop-filter: blur(20px);
+        align-items: center;
+        justify-content: center;
+      }
+      #mobile-menu.open {
+        display: flex;
+      }
+      #mobile-menu a {
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.5rem;
+      }
+
+      /* ─── Responsive section padding ─── */
+      @media (max-width: 768px) {
+        .hero-title span {
+          font-size: 2.75rem !important;
+        }
+        section {
+          padding-top: 4.5rem !important;
+          padding-bottom: 4.5rem !important;
+        }
+        h2.font-serif {
+          font-size: 2.25rem !important;
+        }
+        .proj-num {
+          font-size: 3rem;
+        }
+      }
+      @media (min-width: 769px) and (max-width: 1023px) {
+        .hero-title span {
+          font-size: 3.75rem !important;
+        }
+      }
+
+      /* ─── Certifications badge ─── */
+      .cert-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        border: 1px solid var(--border-subtle);
+        background: rgba(201, 168, 76, 0.04);
+        padding: 1rem 1.5rem;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+
+  <!-- ============================================================
+     BODY
+     ============================================================ -->
+  <body>
+    <!-- Custom cursor -->
+    <div id="cursor-outer"></div>
+    <div id="cursor-inner"></div>
+
+    <!-- ─── LOADER ──────────────────────────────────────────── -->
+    <div id="loader">
+      <div class="ornament w-48">
+        <span class="section-label" style="white-space: nowrap"
+          >Loading Portfolio</span
+        >
+      </div>
+      <div id="loader-bar-track"><div id="loader-bar"></div></div>
+      <p
+        class="text-xs mt-3"
+        style="color: var(--text-muted); letter-spacing: 0.2em"
+      >
+        DHRUV KASHYAP
+      </p>
+    </div>
+
+    <!-- ─── NAVIGATION ─────────────────────────────────────── -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-40 border-b"
+      style="
+        background: rgba(5, 26, 21, 0.7);
+        border-color: var(--border-subtle);
+      "
+    >
+      <div
+        class="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between"
+      >
+        <!-- Logo -->
+        <a
+          href="#home"
+          class="font-serif italic text-xl"
+          style="color: var(--gold-light)"
+          >DK</a
+        >
+
+        <!-- Desktop nav links -->
+        <div class="hidden md:flex items-center gap-8">
+          <a
+            href="#about"
+            class="section-label hover:text-gold transition-colors"
+            style="color: var(--text-muted)"
+            >About</a
+          >
+          <a
+            href="#projects"
+            class="section-label hover:text-gold transition-colors"
+            style="color: var(--text-muted)"
+            >Projects</a
+          >
+          <a
+            href="#skills"
+            class="section-label hover:text-gold transition-colors"
+            style="color: var(--text-muted)"
+            >Skills</a
+          >
+          <a
+            href="#education"
+            class="section-label hover:text-gold transition-colors"
+            style="color: var(--text-muted)"
+            >Education</a
+          >
+          <a
+            href="#contact"
+            class="section-label hover:text-gold transition-colors"
+            style="color: var(--text-muted)"
+            >Contact</a
+          >
+        </div>
+
+        <!-- Resume CTA (desktop) -->
+        <a
+          href="mailto:7468dhruv@gmail.com"
+          class="hidden md:inline-flex cta-btn text-xs"
+        >
+          <span>Get In Touch</span>
+          <span>→</span>
+        </a>
+
+        <!-- Hamburger (mobile) -->
+        <button
+          id="menu-toggle"
+          class="md:hidden flex flex-col gap-1.5 items-center justify-center"
+          style="min-width: 44px; min-height: 44px; padding: 8px"
+          aria-label="Toggle menu"
+        >
+          <span class="block w-6 h-px" style="background: var(--gold)"></span>
+          <span class="block w-4 h-px" style="background: var(--gold)"></span>
+          <span class="block w-6 h-px" style="background: var(--gold)"></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu">
+      <button
+        id="menu-close"
+        class="absolute top-6 right-6 text-2xl"
+        style="color: var(--gold); min-width: 44px; min-height: 44px"
+        aria-label="Close menu"
+      >
+        ✕
+      </button>
+      <a
+        href="#about"
+        class="font-serif italic text-3xl gold-text"
+        onclick="closeMobileMenu()"
+        >About</a
+      >
+      <a
+        href="#projects"
+        class="font-serif italic text-3xl gold-text"
+        onclick="closeMobileMenu()"
+        >Projects</a
+      >
+      <a
+        href="#skills"
+        class="font-serif italic text-3xl gold-text"
+        onclick="closeMobileMenu()"
+        >Skills</a
+      >
+      <a
+        href="#education"
+        class="font-serif italic text-3xl gold-text"
+        onclick="closeMobileMenu()"
+        >Education</a
+      >
+      <a
+        href="#contact"
+        class="font-serif italic text-3xl gold-text"
+        onclick="closeMobileMenu()"
+        >Contact</a
+      >
+    </div>
+
+    <!-- ─── HERO ────────────────────────────────────────────── -->
+    <section
+      id="home"
+      style="
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        background: radial-gradient(
+          ellipse 80% 60% at 60% 50%,
+          rgba(15, 64, 48, 0.4) 0%,
+          var(--bg-primary) 70%
+        );
+      "
+    >
+      <!-- Three.js canvas fills background -->
+      <canvas id="hero-canvas"></canvas>
+
+      <!-- Floating particles container -->
+      <div
+        id="particles"
+        class="absolute inset-0 pointer-events-none overflow-hidden"
+      ></div>
+
+      <!-- Hero content -->
+      <div
+        class="max-w-7xl mx-auto px-6 lg:px-12 w-full relative z-10 pt-24 pb-16"
+      >
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <!-- Left: Text -->
+          <div>
+            <!-- Eyebrow -->
+            <div class="flex items-center gap-3 mb-8 reveal">
+              <div class="w-8 h-px" style="background: var(--gold)"></div>
+              <span class="section-label">Software Engineer</span>
+            </div>
+
+            <!-- Name -->
+            <h1 class="hero-title reveal" style="transition-delay: 0.1s">
+              <span
+                class="block hero-title-name"
+                style="color: var(--alabaster)"
+                >Dhruv</span
+              >
+              <span class="block hero-title-name gold-text">Kashyap</span>
+            </h1>
+
+            <!-- Tagline -->
+            <p
+              class="mt-6 text-base leading-relaxed max-w-md reveal"
+              style="color: var(--text-muted); transition-delay: 0.2s"
+            >
+              Building production-grade backend systems &amp; AI-powered
+              solutions. Oracle-certified in Cloud Infrastructure &amp; AI.
+            </p>
+
+            <!-- CTAs -->
+            <div
+              class="flex flex-wrap gap-4 mt-10 reveal"
+              style="transition-delay: 0.3s"
+            >
+              <a href="#projects" class="cta-btn"
+                ><span>View Work</span><span>↓</span></a
+              >
+              <a
+                href="mailto:7468dhruv@gmail.com"
+                class="cta-btn"
+                style="
+                  border-color: var(--border-subtle);
+                  color: var(--text-muted);
+                "
+                ><span>Get In Touch</span></a
+              >
+            </div>
+
+            <!-- Stats row -->
+            <div
+              class="flex flex-wrap gap-6 sm:gap-10 mt-14 reveal"
+              style="transition-delay: 0.4s"
+            >
+              <div>
+                <div class="stat-num gold-text">4+</div>
+                <div
+                  class="section-label mt-1"
+                  style="color: var(--text-muted)"
+                >
+                  Projects
+                </div>
+              </div>
+              <div class="w-px" style="background: var(--border-subtle)"></div>
+              <div>
+                <div class="stat-num gold-text">2+</div>
+                <div
+                  class="section-label mt-1"
+                  style="color: var(--text-muted)"
+                >
+                  Years Exp.
+                </div>
+              </div>
+              <div class="w-px" style="background: var(--border-subtle)"></div>
+              <div>
+                <div class="stat-num gold-text">1</div>
+                <div
+                  class="section-label mt-1"
+                  style="color: var(--text-muted)"
+                >
+                  Oracle Cert.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: 3D canvas placeholder / decorative frame -->
+          <div class="hidden lg:flex justify-center items-center">
+            <div class="relative w-80 h-80">
+              <!-- Rotating decorative ring -->
+              <div
+                id="deco-ring"
+                class="absolute inset-0 rounded-full"
+                style="
+                  border: 1px solid rgba(201, 168, 76, 0.2);
+                  animation: spin-ring 20s linear infinite;
+                "
+              ></div>
+              <div
+                class="absolute inset-4 rounded-full"
+                style="
+                  border: 1px dashed rgba(201, 168, 76, 0.1);
+                  animation: spin-ring 12s linear infinite reverse;
+                "
+              ></div>
+              <!-- Center icon area (Three.js renders behind this) -->
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                  <div class="font-serif italic text-6xl gold-text mb-1">
+                    DK
+                  </div>
+                  <div class="section-label" style="color: var(--text-muted)">
+                    Backend &amp; Full-Stack
+                  </div>
+                </div>
+              </div>
+              <!-- Corner dots -->
+              <div
+                class="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full"
+                style="background: var(--gold)"
+              ></div>
+              <div
+                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full"
+                style="background: var(--gold)"
+              ></div>
+              <div
+                class="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full"
+                style="background: var(--gold)"
+              ></div>
+              <div
+                class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full"
+                style="background: var(--gold)"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scroll hint -->
+        <div
+          class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 scroll-hint"
+        >
+          <div
+            class="w-px h-12"
+            style="
+              background: linear-gradient(to bottom, transparent, var(--gold));
+            "
+          ></div>
+          <span class="section-label" style="color: var(--text-muted)"
+            >Scroll</span
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- gold divider -->
+    <div class="gold-line"></div>
+
+    <!-- ─── ABOUT ─────────────────────────────────────────── -->
+    <section id="about" class="py-28 max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid lg:grid-cols-5 gap-16 items-start">
+        <!-- Label column -->
+        <div class="lg:col-span-1 reveal">
+          <div class="section-label mb-4" style="color: var(--gold)">
+            01 — About
+          </div>
+          <div class="w-8 h-px" style="background: var(--gold)"></div>
+        </div>
+
+        <!-- Main content -->
+        <div class="lg:col-span-4 reveal" style="transition-delay: 0.1s">
+          <h2
+            class="font-serif italic text-5xl lg:text-6xl mb-8"
+            style="color: var(--alabaster); line-height: 1.1"
+          >
+            Crafting systems that<br /><span class="gold-text"
+              >think &amp; scale.</span
+            >
+          </h2>
+          <p
+            class="text-base leading-8 max-w-2xl mb-8"
+            style="color: var(--text-muted)"
+          >
+            I'm a Computer Science student with hands-on experience building
+            production-grade backend systems, REST APIs, and full-stack web
+            applications. I specialise in designing AI-powered solutions — from
+            RAG pipelines and LLM integrations to cloud-native microservices.
+          </p>
+          <p
+            class="text-base leading-8 max-w-2xl"
+            style="color: var(--text-muted)"
+          >
+            Proficient in Python, Java, FastAPI, and Spring Boot, with practical
+            exposure to AWS, Oracle Cloud, Docker, and CI/CD pipelines. I'm
+            passionate about writing clean, scalable, and secure code that
+            drives real business outcomes.
+          </p>
+
+          <!-- Oracle Cert badge -->
+          <div class="mt-12">
+            <div class="cert-badge inline-flex">
+              <div
+                class="w-10 h-10 rounded-full flex items-center justify-center text-lg"
+                style="
+                  background: rgba(201, 168, 76, 0.1);
+                  border: 1px solid var(--border-subtle);
+                "
+              >
+                🏆
+              </div>
+              <div>
+                <div
+                  class="text-sm font-medium"
+                  style="color: var(--alabaster)"
+                >
+                  Oracle Cloud Infrastructure AI Foundations Associate
+                </div>
+                <div class="text-xs mt-0.5" style="color: var(--text-muted)">
+                  1Z0-1122-25 — Oracle, 2025
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- gold divider -->
+    <div class="gold-line"></div>
+
+    <!-- ─── PROJECTS ──────────────────────────────────────── -->
+    <section id="projects" class="py-28 max-w-7xl mx-auto px-6 lg:px-12">
+      <!-- Heading row -->
+      <div class="flex items-end justify-between mb-16 reveal">
+        <div>
+          <div class="section-label mb-3" style="color: var(--gold)">
+            02 — Selected Work
+          </div>
+          <h2
+            class="font-serif italic text-5xl lg:text-6xl"
+            style="color: var(--alabaster); line-height: 1.1"
+          >
+            Projects <span class="gold-text">&amp; Systems</span>
+          </h2>
+        </div>
+      </div>
+
+      <!-- Project grid -->
+      <div class="grid lg:grid-cols-2 gap-6">
+        <!-- ─ Project 1: AI Document Intelligence ─ -->
+        <div class="project-card p-8 reveal" style="transition-delay: 0.05s">
+          <div class="proj-num">01</div>
+          <div class="flex items-start justify-between mb-6">
+            <div>
+              <div class="section-label mb-2" style="color: var(--gold)">
+                AI / Backend
+              </div>
+              <h3 class="font-serif text-2xl" style="color: var(--alabaster)">
+                RAGnarok - AI Document Intelligence
+              </h3>
+            </div>
+            <div class="text-2xl ml-4">⚡</div>
+          </div>
+          <p class="text-sm leading-7 mb-6" style="color: var(--text-muted)">
+            A FastAPI backend enabling semantic search and AI-powered Q&amp;A
+            over uploaded PDFs using a
+            <strong style="color: var(--gold-light)"
+              >Retrieval-Augmented Generation (RAG)</strong
+            >
+            pipeline integrated with OpenAI. Features pgvector for vector
+            similarity search and Redis/DiceDB caching to significantly reduce
+            response latency.
+          </p>
+          <!-- Highlights list -->
+          <ul class="space-y-2 mb-8">
+            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
+              <span style="color: var(--gold)">—</span> PostgreSQL schema with
+              pgvector for document embeddings
+            </li>
+            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
+              <span style="color: var(--gold)">—</span> End-to-end PDF
+              extraction, chunking &amp; embedding pipeline
+            </li>
+            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
+              <span style="color: var(--gold)">—</span> JWT authentication +
+              fastapi-guard security layer
+            </li>
+          </ul>
+          <!-- Tech pills -->
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="skill-badge">FastAPI</span>
+            <span class="skill-badge">PostgreSQL</span>
+            <span class="skill-badge">pgvector</span>
+            <span class="skill-badge">OpenAI</span>
+            <span class="skill-badge">Redis</span>
+            <span class="skill-badge">RAG</span>
+          </div>
+          <!-- GitHub button -->
+          <div class="flex items-center justify-between mt-auto">
+            <a
+              href="https://ragnarok-yn7t.onrender.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="github-btn"
+            >
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                />
+              </svg>
+              <span>LIVE PREVIEW</span>
+            </a>
+            <span class="section-label" style="color: var(--text-muted)"
+              >2026</span
+            >
+          </div>
+        </div>
+
+        <!-- ─ Project 2: Agriculture Analytics ─ -->
+        <div class="project-card p-8 reveal" style="transition-delay: 0.1s">
+          <div class="proj-num">02</div>
+          <div class="flex items-start justify-between mb-6">
+            <div>
+              <div class="section-label mb-2" style="color: var(--gold)">
+                Data Engineering
+              </div>
+              <h3 class="font-serif text-2xl" style="color: var(--alabaster)">
+                Agriculture Yield Prediction &amp; Analytics
+              </h3>
+            </div>
+            <div class="text-2xl ml-4">📊</div>
+          </div>
+          <p class="text-sm leading-7 mb-6" style="color: var(--text-muted)">
+            An end-to-end ETL pipeline ingesting 6 raw CSV datasets into a
+            <strong style="color: var(--gold-light)"
+              >Snowflake star schema</strong
+            >
+            with PySpark batch jobs for large-scale yield aggregation, rolling
+            averages, and profit calculations. Enterprise RBAC with column-level
+            views.
+          </p>
+          <ul class="space-y-2 mb-8">
+            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
+              <span style="color: var(--gold)">—</span> 4 dimension tables, 1
+              fact table with custom profitability metrics
+            </li>
+            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
+              <span style="color: var(--gold)">—</span> Streamlit &amp; Plotly
+              dashboard with 5 analytical views
+            </li>
+            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
+              <span style="color: var(--gold)">—</span> RBAC: ETL &amp; Analyst
+              roles with secure column-level access
+            </li>
+          </ul>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="skill-badge">Python</span>
+            <span class="skill-badge">PySpark</span>
+            <span class="skill-badge">Snowflake</span>
+            <span class="skill-badge">Streamlit</span>
+            <span class="skill-badge">SQL</span>
+          </div>
+          <!-- GitHub button -->
+          <div class="flex items-center justify-between mt-auto">
+            <a
+              href="https://github.com/dhruv-kashyap47/agriculture-yield-prediction-system"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="github-btn"
+            >
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                />
+              </svg>
+              <span>View Source</span>
+            </a>
+            <span class="section-label" style="color: var(--text-muted)"
+              >2026</span
+            >
+          </div>
+        </div>
+
+        <!-- ─ Project 3: TaskFlow ─ -->
+        <div class="project-card p-8 reveal" style="transition-delay: 0.15s">
+          <div class="proj-num">03</div>
+          <div class="flex items-start justify-between mb-6">
+            <div>
+              <div class="section-label mb-2" style="color: var(--gold)">
+                DevOps / Backend
+              </div>
+              <h3 class="font-serif text-2xl" style="color: var(--alabaster)">
+                TaskFlow — Task Management System
+              </h3>
+            </div>
+            <div class="text-2xl ml-4">🗂️</div>
+          </div>
+          <p class="text-sm leading-7 mb-6" style="color: var(--text-muted)">
+            A
+            <strong style="color: var(--gold-light)"
+              >Spring Boot REST API</strong
+            >
+            with full CRUD over MySQL, structured across
+            model/repository/service layers following SOLID principles.
+            Containerised with Docker Compose for single-command deployment and
+            GitHub Actions CI/CD for every push.
+          </p>
+          <ul class="space-y-2 mb-8">
+            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
+              <span style="color: var(--gold)">—</span> Automated CI/CD pipeline
+              catching integration issues early
+            </li>
+            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
+              <span style="color: var(--gold)">—</span> All 8 endpoints
+              documented in Postman collection
+            </li>
+            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
+              <span style="color: var(--gold)">—</span> OOP &amp; SOLID design
+              throughout service layer
+            </li>
+          </ul>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="skill-badge">Java</span>
+            <span class="skill-badge">Spring Boot</span>
+            <span class="skill-badge">MySQL</span>
+            <span class="skill-badge">Docker</span>
+            <span class="skill-badge">GitHub Actions</span>
+          </div>
+          <!-- GitHub button -->
+          <div class="flex items-center justify-between mt-auto">
+            <a
+              href="https://github.com/dhruv-kashyap47/TaskFlow"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="github-btn"
+            >
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                />
+              </svg>
+              <span>View Source</span>
+            </a>
+            <span class="section-label" style="color: var(--text-muted)"
+              >2025</span
+            >
+          </div>
+        </div>
+
+        <!-- ─ Project 4: Expense Tracker API ─ -->
+        <div class="project-card p-8 reveal" style="transition-delay: 0.2s">
+          <div class="proj-num">04</div>
+          <div class="flex items-start justify-between mb-6">
+            <div>
+              <div class="section-label mb-2" style="color: var(--gold)">
+                REST API
+              </div>
+              <h3 class="font-serif text-2xl" style="color: var(--alabaster)">
+                Expense Tracker API
+              </h3>
+            </div>
+            <div class="text-2xl ml-4">💳</div>
+          </div>
+          <p class="text-sm leading-7 mb-6" style="color: var(--text-muted)">
+            A
+            <strong style="color: var(--gold-light)">FastAPI REST API</strong>
+            with 7 endpoints for full CRUD on expenses, category-based
+            filtering, and dynamic total calculation. Input validation enforced
+            via Pydantic models with self-documentation through Swagger UI.
+          </p>
+          <ul class="space-y-2 mb-8">
+            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
+              <span style="color: var(--gold)">—</span> Pydantic models for
+              strict input validation &amp; data integrity
+            </li>
+            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
+              <span style="color: var(--gold)">—</span> Proper HTTP status codes
+              &amp; structured error handling
+            </li>
+            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
+              <span style="color: var(--gold)">—</span> Auto-documented via
+              FastAPI Swagger UI + Postman verified
+            </li>
+          </ul>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="skill-badge">FastAPI</span>
+            <span class="skill-badge">Python</span>
+            <span class="skill-badge">Pydantic</span>
+            <span class="skill-badge">Uvicorn</span>
+          </div>
+          <!-- GitHub button -->
+          <div class="flex items-center justify-between mt-auto">
+            <a
+              href="https://github.com/dhruv-kashyap47/expense-tracker-api"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="github-btn"
+            >
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                />
+              </svg>
+              <span>View Source</span>
+            </a>
+            <span class="section-label" style="color: var(--text-muted)"
+              >2025</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- /grid -->
+    </section>
+
+    <!-- gold divider -->
+    <div class="gold-line"></div>
+
+    <!-- ─── SKILLS ───────────────────────────────────────── -->
+    <section id="skills" class="py-28 max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid lg:grid-cols-5 gap-16">
+        <div class="lg:col-span-1 reveal">
+          <div class="section-label mb-4" style="color: var(--gold)">
+            03 — Skills
+          </div>
+          <div class="w-8 h-px" style="background: var(--gold)"></div>
+        </div>
+
+        <div class="lg:col-span-4 reveal" style="transition-delay: 0.1s">
+          <h2
+            class="font-serif italic text-5xl lg:text-6xl mb-14"
+            style="color: var(--alabaster); line-height: 1.1"
+          >
+            Technical <span class="gold-text">Arsenal</span>
+          </h2>
+
+          <!-- Skill categories -->
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            <!-- Languages -->
+            <div>
+              <h4 class="section-label mb-4" style="color: var(--gold)">
+                Languages
+              </h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="skill-badge">Python</span>
+                <span class="skill-badge">Java</span>
+                <span class="skill-badge">JavaScript</span>
+              </div>
+            </div>
+
+            <!-- Backend -->
+            <div>
+              <h4 class="section-label mb-4" style="color: var(--gold)">
+                Backend
+              </h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="skill-badge">FastAPI</span>
+                <span class="skill-badge">Django</span>
+                <span class="skill-badge">Spring Boot</span>
+                <span class="skill-badge">REST APIs</span>
+                <span class="skill-badge">JWT Auth</span>
+              </div>
+            </div>
+
+            <!-- AI / ML -->
+            <div>
+              <h4 class="section-label mb-4" style="color: var(--gold)">
+                AI / ML
+              </h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="skill-badge">OpenAI API</span>
+                <span class="skill-badge">RAG Pipelines</span>
+                <span class="skill-badge">Prompt Eng.</span>
+                <span class="skill-badge">LLM Integration</span>
+                <span class="skill-badge">pgvector</span>
+              </div>
+            </div>
+
+            <!-- Databases -->
+            <div>
+              <h4 class="section-label mb-4" style="color: var(--gold)">
+                Databases
+              </h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="skill-badge">PostgreSQL</span>
+                <span class="skill-badge">MySQL</span>
+                <span class="skill-badge">MongoDB</span>
+                <span class="skill-badge">Redis</span>
+                <span class="skill-badge">Snowflake</span>
+                <span class="skill-badge">DiceDB</span>
+              </div>
+            </div>
+
+            <!-- Cloud & DevOps -->
+            <div>
+              <h4 class="section-label mb-4" style="color: var(--gold)">
+                Cloud &amp; DevOps
+              </h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="skill-badge">AWS</span>
+                <span class="skill-badge">Oracle Cloud</span>
+                <span class="skill-badge">Docker</span>
+                <span class="skill-badge">GitHub Actions</span>
+                <span class="skill-badge">CI/CD</span>
+              </div>
+            </div>
+
+            <!-- Frontend & Concepts -->
+            <div>
+              <h4 class="section-label mb-4" style="color: var(--gold)">
+                Frontend &amp; Concepts
+              </h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="skill-badge">React.js</span>
+                <span class="skill-badge">Tailwind CSS</span>
+                <span class="skill-badge">System Design</span>
+                <span class="skill-badge">Microservices</span>
+                <span class="skill-badge">OOP / SOLID</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- gold divider -->
+    <div class="gold-line"></div>
+
+    <!-- ─── EDUCATION & ACHIEVEMENTS ─────────────────────── -->
+    <section id="education" class="py-28 max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid lg:grid-cols-2 gap-20">
+        <!-- Education column -->
+        <div class="reveal">
+          <div class="section-label mb-4" style="color: var(--gold)">
+            04 — Education
+          </div>
+          <div class="w-8 h-px mb-10" style="background: var(--gold)"></div>
+
+          <div class="timeline-item pb-8">
+            <div class="section-label mb-1" style="color: var(--gold)">
+              2022 — 2026
+            </div>
+            <h3
+              class="font-serif text-2xl mt-1 mb-2"
+              style="color: var(--alabaster)"
+            >
+              B.Tech in Computer Science Engineering
+            </h3>
+            <p class="text-sm mb-1" style="color: var(--text-muted)">
+              ITER, Siksha 'O' Anusandhan University, Bhubaneswar
+            </p>
+            <p class="text-xs mt-3" style="color: var(--text-muted)">
+              Coursework: DSA, Operating Systems, DBMS, Computer Networks, OOP,
+              Software Engineering
+            </p>
+          </div>
+        </div>
+
+        <!-- Achievements column -->
+        <div class="reveal" style="transition-delay: 0.1s">
+          <div class="section-label mb-4" style="color: var(--gold)">
+            05 — Achievements
+          </div>
+          <div class="w-8 h-px mb-10" style="background: var(--gold)"></div>
+
+          <div class="space-y-8">
+            <!-- Achievement 1 -->
+            <div class="project-card p-6">
+              <div class="flex gap-4 items-start">
+                <div class="text-2xl">🥈</div>
+                <div>
+                  <h4
+                    class="font-serif text-lg mb-1"
+                    style="color: var(--alabaster)"
+                  >
+                    2nd Place — Teenpreneur Event
+                  </h4>
+                  <p class="text-xs mb-1" style="color: var(--gold)">
+                    OJASS ALPHA '20 — NIT Jamshedpur
+                  </p>
+                  <p class="text-sm" style="color: var(--text-muted)">
+                    National-level technical fest with teams competing from
+                    across the country.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Achievement 2 -->
+            <div class="project-card p-6">
+              <div class="flex gap-4 items-start">
+                <div class="text-2xl">🤖</div>
+                <div>
+                  <h4
+                    class="font-serif text-lg mb-1"
+                    style="color: var(--alabaster)"
+                  >
+                    Volunteer — Robotics Competition
+                  </h4>
+                  <p class="text-xs mb-1" style="color: var(--gold)">
+                    Robomind Robotics — Inter-School Event
+                  </p>
+                  <p class="text-sm" style="color: var(--text-muted)">
+                    Managed participant coordination and on-ground event
+                    logistics for inter-school robotics.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Oracle cert -->
+            <div class="project-card p-6">
+              <div class="flex gap-4 items-start">
+                <div class="text-2xl">☁️</div>
+                <div>
+                  <h4
+                    class="font-serif text-lg mb-1"
+                    style="color: var(--alabaster)"
+                  >
+                    Oracle Cloud Infrastructure AI Foundations
+                  </h4>
+                  <p class="text-xs mb-1" style="color: var(--gold)">
+                    Associate Certification (1Z0-1122-25) — Oracle, 2025
+                  </p>
+                  <p class="text-sm" style="color: var(--text-muted)">
+                    Certified in OCI fundamentals, AI/ML services, and cloud
+                    architecture patterns.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- gold divider -->
+    <div class="gold-line"></div>
+
+    <!-- ─── CONTACT ────────────────────────────────────────── -->
+    <section id="contact" class="py-28 max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="max-w-2xl mx-auto text-center reveal">
+        <div class="section-label mb-4" style="color: var(--gold)">
+          06 — Get In Touch
+        </div>
+        <h2
+          class="font-serif italic text-5xl lg:text-6xl mb-6"
+          style="color: var(--alabaster); line-height: 1.1"
+        >
+          Let's build something<br /><span class="gold-text">remarkable.</span>
+        </h2>
+        <p class="text-base leading-8 mb-12" style="color: var(--text-muted)">
+          Open to full-time roles, internships, and freelance backend/AI
+          projects. Always happy to connect.
+        </p>
+
+        <!-- Contact links -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-14">
+          <a href="mailto:7468dhruv@gmail.com" class="cta-btn">
+            <span>✉ Email Me</span>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/dhruv-kashyap-222007380/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cta-btn"
+            style="border-color: var(--border-subtle); color: var(--text-muted)"
+          >
+            <span>LinkedIn →</span>
+          </a>
+          <a
+            href="https://github.com/dhruv-kashyap47"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cta-btn"
+            style="border-color: var(--border-subtle); color: var(--text-muted)"
+          >
+            <span>GitHub →</span>
+          </a>
+        </div>
+
+        <div class="ornament">
+          <span
+            class="section-label"
+            style="color: var(--text-muted); white-space: nowrap"
+            >Bhubaneswar, India · Available for Remote</span
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── FOOTER ────────────────────────────────────────── -->
+    <footer
+      class="border-t py-8 px-6"
+      style="border-color: var(--border-subtle)"
+    >
+      <div
+        class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4"
+      >
+        <span class="font-serif italic" style="color: var(--gold-dim)"
+          >Dhruv Kashyap</span
+        >
+        <span class="text-xs" style="color: var(--text-muted)"
+          >© 2026 · Built with precision &amp; craft</span
+        >
+        <span class="text-xs" style="color: var(--text-muted)"
+          >7468dhruv@gmail.com</span
+        >
+      </div>
+    </footer>
+
+    <!-- =========================================================
+       SCRIPTS — Three.js Hero, Interactions, Scroll Reveals
+       ========================================================= -->
+
+    <!-- Three.js via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+      @keyframes spin-ring {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+
+    <script>
+      /* ──────────────────────────────────────────────────────────
+       0. LOADER
+    ─────────────────────────────────────────────────────────── */
+      (function () {
+        const bar = document.getElementById("loader-bar");
+        let w = 0;
+        const iv = setInterval(() => {
+          w += Math.random() * 15;
+          if (w >= 100) {
+            w = 100;
+            clearInterval(iv);
+          }
+          bar.style.width = w + "%";
+        }, 80);
+        window.addEventListener("load", () => {
+          bar.style.width = "100%";
+          setTimeout(() => {
+            document.getElementById("loader").classList.add("hidden");
+          }, 600);
+        });
+      })();
+
+      /* ──────────────────────────────────────────────────────────
+       1. CUSTOM CURSOR
+    ─────────────────────────────────────────────────────────── */
+      (function () {
+        const outer = document.getElementById("cursor-outer");
+        const inner = document.getElementById("cursor-inner");
+        let ox = 0,
+          oy = 0;
+        document.addEventListener("mousemove", (e) => {
+          inner.style.left = e.clientX + "px";
+          inner.style.top = e.clientY + "px";
+          ox += (e.clientX - ox) * 0.12;
+          oy += (e.clientY - oy) * 0.12;
+          outer.style.left = ox + "px";
+          outer.style.top = oy + "px";
+        });
+        // Smooth lerp
+        function animate() {
+          requestAnimationFrame(animate);
+        }
+        animate();
+      })();
+
+      /* ──────────────────────────────────────────────────────────
+       2. SCROLL REVEAL
+    ─────────────────────────────────────────────────────────── */
+      (function () {
+        const els = document.querySelectorAll(".reveal");
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("visible");
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.12 },
+        );
+        els.forEach((el) => io.observe(el));
+      })();
+
+      /* ──────────────────────────────────────────────────────────
+       3. MOBILE MENU
+    ─────────────────────────────────────────────────────────── */
+      const mobileMenu = document.getElementById("mobile-menu");
+      document
+        .getElementById("menu-toggle")
+        .addEventListener("click", () => mobileMenu.classList.add("open"));
+      document
+        .getElementById("menu-close")
+        .addEventListener("click", () => mobileMenu.classList.remove("open"));
+      function closeMobileMenu() {
+        mobileMenu.classList.remove("open");
+      }
+
+      /* ──────────────────────────────────────────────────────────
+       4. FLOATING PARTICLES (CSS-based, no canvas)
+    ─────────────────────────────────────────────────────────── */
+      (function () {
+        const container = document.getElementById("particles");
+        const isMobile = window.matchMedia("(pointer: coarse)").matches;
+        const particleMax = isMobile ? 14 : 24;
+        for (let i = 0; i < particleMax; i++) {
+          const p = document.createElement("div");
+          p.className = "particle";
+          const size = Math.random() * 3 + 1;
+          p.style.cssText = `
+          width: ${size}px; height: ${size}px;
+          left: ${Math.random() * 100}%;
+          bottom: ${Math.random() * 30}%;
+          animation-duration: ${6 + Math.random() * 10}s;
+          animation-delay: ${Math.random() * 8}s;
+          opacity: 0;
+        `;
+          container.appendChild(p);
+        }
+      })();
+
+      /* ──────────────────────────────────────────────────────────
+       5. THREE.JS — Interactive hero 3D experience
+          - Torus-knot geometry representing complexity & elegance
+          - Gold wireframe icosahedron orbiting around it
+          - Cursor-reactive camera tilt
+          - Scroll-responsive rotation speed
+    ─────────────────────────────────────────────────────────── */
+      (function () {
+        const canvas = document.getElementById("hero-canvas");
+        if (!canvas || typeof THREE === "undefined") return;
+
+        /* Scene setup */
+        const scene = new THREE.Scene();
+        const W = canvas.parentElement.offsetWidth;
+        const H = canvas.parentElement.offsetHeight || window.innerHeight;
+        const camera = new THREE.PerspectiveCamera(55, W / H, 0.1, 100);
+        camera.position.set(0, 0, 5);
+
+        const renderer = new THREE.WebGLRenderer({
+          canvas,
+          antialias: true,
+          alpha: true,
+        });
+        renderer.setSize(W, H);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x000000, 0);
+
+        /* ── Lighting ── */
+        const ambientLight = new THREE.AmbientLight(0x051a15, 1.5);
+        scene.add(ambientLight);
+
+        const goldLight = new THREE.PointLight(0xc9a84c, 2.5, 15);
+        goldLight.position.set(3, 3, 3);
+        scene.add(goldLight);
+
+        const emeraldLight = new THREE.PointLight(0x0f4030, 3, 20);
+        emeraldLight.position.set(-4, -2, 2);
+        scene.add(emeraldLight);
+
+        const rimLight = new THREE.DirectionalLight(0xe2c97e, 0.4);
+        rimLight.position.set(0, 5, -5);
+        scene.add(rimLight);
+
+        /* ── Central torus-knot (the "engine") ── */
+        const torusGeo = new THREE.TorusKnotGeometry(1, 0.32, 128, 16, 2, 3);
+        const torusMat = new THREE.MeshStandardMaterial({
+          color: 0x0a2e20,
+          metalness: 0.9,
+          roughness: 0.25,
+          emissive: 0x051a15,
+          emissiveIntensity: 0.4,
+        });
+        const torusMesh = new THREE.Mesh(torusGeo, torusMat);
+        scene.add(torusMesh);
+
+        /* Wireframe overlay on torus-knot */
+        const wireMat = new THREE.MeshBasicMaterial({
+          color: 0xc9a84c,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.08,
+        });
+        const wireMesh = new THREE.Mesh(torusGeo, wireMat);
+        scene.add(wireMesh);
+
+        /* ── Orbiting icosahedron ── */
+        const icoGeo = new THREE.IcosahedronGeometry(0.45, 0);
+        const icoMat = new THREE.MeshStandardMaterial({
+          color: 0x1a5c3a,
+          metalness: 1,
+          roughness: 0.1,
+          emissive: 0x0a2e20,
+          emissiveIntensity: 0.6,
+        });
+        const icoMesh = new THREE.Mesh(icoGeo, icoMat);
+        scene.add(icoMesh);
+
+        /* Icosahedron wireframe */
+        const icoWireMat = new THREE.MeshBasicMaterial({
+          color: 0xe2c97e,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.55,
+        });
+        const icoWireMesh = new THREE.Mesh(icoGeo, icoWireMat);
+        icoMesh.add(icoWireMesh);
+
+        /* ── Orbiting sphere (smaller satellite) ── */
+        const sphereGeo = new THREE.SphereGeometry(0.18, 16, 16);
+        const sphereMat = new THREE.MeshStandardMaterial({
+          color: 0xc9a84c,
+          metalness: 1,
+          roughness: 0.0,
+          emissive: 0x8a6e2f,
+          emissiveIntensity: 0.8,
+        });
+        const sphereMesh = new THREE.Mesh(sphereGeo, sphereMat);
+        scene.add(sphereMesh);
+
+        /* ── Particle field (star-like dots) ── */
+        const particleCount = 200;
+        const positions = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount; i++) {
+          positions[i * 3] = (Math.random() - 0.5) * 18;
+          positions[i * 3 + 1] = (Math.random() - 0.5) * 18;
+          positions[i * 3 + 2] = (Math.random() - 0.5) * 18;
+        }
+        const particleGeo = new THREE.BufferGeometry();
+        particleGeo.setAttribute(
+          "position",
+          new THREE.BufferAttribute(positions, 3),
+        );
+        const particleMat = new THREE.PointsMaterial({
+          color: 0xc9a84c,
+          size: 0.03,
+          transparent: true,
+          opacity: 0.4,
+        });
+        const particleMesh = new THREE.Points(particleGeo, particleMat);
+        scene.add(particleMesh);
+
+        /* ── Mouse tracking ── */
+        const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
+        document.addEventListener("mousemove", (e) => {
+          mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 2;
+          mouse.targetY = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+
+        /* ── Scroll tracking ── */
+        let scrollY = 0;
+        window.addEventListener("scroll", () => {
+          scrollY = window.scrollY;
+        });
+
+        /* ── Resize handler ── */
+        window.addEventListener("resize", () => {
+          const w = canvas.parentElement.offsetWidth;
+          const h = canvas.parentElement.offsetHeight || window.innerHeight;
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+          renderer.setSize(w, h);
+        });
+
+        /* ── Animation loop with visibility gating ── */
+        let t = 0;
+        let heroVisible = true;
+        const heroSection = document.getElementById("home");
+        if (heroSection) {
+          const heroObs = new IntersectionObserver(
+            (entries) => {
+              heroVisible = entries[0].isIntersecting;
+            },
+            { threshold: 0 },
+          );
+          heroObs.observe(heroSection);
+        }
+
+        function animate() {
+          requestAnimationFrame(animate);
+          if (!heroVisible) return; /* skip GPU work when hero is off-screen */
+          t += 0.008;
+
+          /* Smooth mouse lerp */
+          mouse.x += (mouse.targetX - mouse.x) * 0.04;
+          mouse.y += (mouse.targetY - mouse.y) * 0.04;
+
+          /* Scroll-based z-scale effect */
+          const scrollFactor = 1 + scrollY * 0.0003;
+          torusMesh.scale.setScalar(Math.max(0.1, 1 / scrollFactor));
+          wireMesh.scale.setScalar(Math.max(0.1, 1 / scrollFactor));
+
+          /* Torus rotation — mouse-reactive */
+          torusMesh.rotation.x = t * 0.3 + mouse.y * 0.4;
+          torusMesh.rotation.y = t * 0.5 + mouse.x * 0.4;
+          wireMesh.rotation.copy(torusMesh.rotation);
+
+          /* Orbiting ico */
+          icoMesh.position.x = Math.cos(t * 0.7) * 2.4;
+          icoMesh.position.y = Math.sin(t * 0.5) * 1.4;
+          icoMesh.position.z = Math.sin(t * 0.6) * 1.2;
+          icoMesh.rotation.x += 0.02;
+          icoMesh.rotation.y += 0.015;
+
+          /* Orbiting sphere (opposite phase) */
+          sphereMesh.position.x = Math.cos(t * 0.9 + Math.PI) * 1.8;
+          sphereMesh.position.y = Math.sin(t * 0.7 + Math.PI) * 2.1;
+          sphereMesh.position.z = Math.sin(t * 0.4) * 0.8;
+
+          /* Gold light pulse */
+          goldLight.intensity = 2.0 + Math.sin(t * 1.8) * 0.5;
+
+          /* Particle slow rotation */
+          particleMesh.rotation.y = t * 0.03;
+          particleMesh.rotation.x = t * 0.01;
+
+          /* Camera gentle tilt */
+          camera.position.x += (mouse.x * 0.8 - camera.position.x) * 0.02;
+          camera.position.y += (-mouse.y * 0.5 - camera.position.y) * 0.02;
+          camera.lookAt(0, 0, 0);
+
+          renderer.render(scene, camera);
+        }
+        animate();
+      })();
+    </script>
+  </body>
+</html>
