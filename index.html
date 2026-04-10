@@ -644,6 +644,106 @@
         padding: 0.25rem 0.5rem;
       }
 
+      /* ─── Visitor insights popover ─── */
+      .insights-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .insights-pop-wrap {
+        position: relative;
+      }
+      .insights-pop-trigger {
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        border: 1px solid rgba(201, 168, 76, 0.35);
+        background: rgba(201, 168, 76, 0.08);
+        color: var(--gold-light);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        line-height: 1;
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease,
+          border-color 0.25s ease,
+          background 0.25s ease;
+      }
+      .insights-pop-trigger:hover {
+        transform: translateY(-1px) scale(1.03);
+        border-color: rgba(201, 168, 76, 0.6);
+        box-shadow: 0 10px 30px rgba(201, 168, 76, 0.12);
+        background: rgba(201, 168, 76, 0.14);
+      }
+      .insights-popover {
+        position: absolute;
+        top: calc(100% + 0.85rem);
+        right: 0;
+        width: min(300px, 88vw);
+        border: 1px solid rgba(201, 168, 76, 0.25);
+        background: linear-gradient(
+          160deg,
+          rgba(201, 168, 76, 0.1) 0%,
+          rgba(10, 46, 32, 0.82) 48%,
+          rgba(7, 31, 24, 0.92) 100%
+        );
+        backdrop-filter: blur(14px);
+        border-radius: 10px;
+        padding: 0.9rem 1rem 1rem;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-6px) scale(0.97);
+        transition:
+          opacity 0.28s ease,
+          transform 0.28s ease;
+        z-index: 30;
+      }
+      .insights-popover.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0) scale(1);
+        animation: insights-pop-in 0.35s ease;
+      }
+      @keyframes insights-pop-in {
+        0% {
+          opacity: 0;
+          transform: translateY(-8px) scale(0.95);
+          filter: blur(3px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          filter: blur(0);
+        }
+      }
+      .insights-country-list {
+        list-style: none;
+        margin-top: 0.7rem;
+        display: grid;
+        gap: 0.55rem;
+      }
+      .insights-country-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.8rem;
+        font-size: 0.82rem;
+        color: var(--alabaster);
+      }
+      .insights-country-item span:last-child {
+        color: var(--gold-light);
+        font-variant-numeric: tabular-nums;
+      }
+      @media (max-width: 640px) {
+        .insights-head {
+          align-items: flex-start;
+        }
+      }
+
       /* ─── Responsive section padding ─── */
       @media (max-width: 768px) {
         .hero-title span {
@@ -1637,6 +1737,110 @@
       </div>
     </section>
 
+    <!-- gold divider -->
+    <div class="gold-line"></div>
+
+    <!-- ─── VISITOR INSIGHTS ───────────────────────── -->
+    <section id="insights" class="py-20 max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="reveal">
+        <div class="insights-head mb-3">
+          <div class="section-label" style="color: var(--gold)">
+            07 — Visitor Insights
+          </div>
+          <div class="insights-pop-wrap" id="insights-pop-wrap">
+            <button
+              id="insights-pop-trigger"
+              class="insights-pop-trigger"
+              type="button"
+              aria-label="Show top visitor countries"
+            >
+              🌍
+            </button>
+            <div
+              id="insights-popover"
+              class="insights-popover"
+              aria-hidden="true"
+            >
+              <div class="section-label" style="color: var(--gold)">
+                Top Countries
+              </div>
+              <p
+                id="insights-pop-status"
+                class="text-xs mt-2"
+                style="color: var(--text-muted)"
+              >
+                Hover or tap to load.
+              </p>
+              <ul id="insights-country-list" class="insights-country-list"></ul>
+            </div>
+          </div>
+        </div>
+        <h2
+          class="font-serif italic text-4xl lg:text-5xl mb-4"
+          style="color: var(--alabaster); line-height: 1.1"
+        >
+          Live <span class="gold-text">Audience Snapshot</span>
+        </h2>
+        <p class="text-sm mb-10 max-w-2xl" style="color: var(--text-muted)">
+          A lightweight real-time view of overall traffic and visitor location.
+        </p>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="project-card p-6">
+            <div class="section-label mb-2" style="color: var(--gold)">
+              Total Visits
+            </div>
+            <div
+              id="visitor-total-count"
+              class="font-serif text-4xl"
+              style="color: var(--alabaster)"
+            >
+              --
+            </div>
+            <p class="text-xs mt-3" style="color: var(--text-muted)">
+              Global page loads tracked across deployments.
+            </p>
+          </div>
+
+          <div class="project-card p-6">
+            <div
+              id="visitor-region-label"
+              class="section-label mb-2"
+              style="color: var(--gold)"
+            >
+              Visits From Your Region
+            </div>
+            <div
+              id="visitor-region-count"
+              class="font-serif text-4xl"
+              style="color: var(--alabaster)"
+            >
+              --
+            </div>
+            <p class="text-xs mt-3" style="color: var(--text-muted)">
+              Country-level count based on current visitor IP location.
+            </p>
+          </div>
+
+          <div class="project-card p-6 sm:col-span-2 lg:col-span-1">
+            <div class="section-label mb-2" style="color: var(--gold)">
+              Current Visitor Location
+            </div>
+            <div
+              id="visitor-location-text"
+              class="text-base leading-7"
+              style="color: var(--alabaster)"
+            >
+              Detecting location...
+            </div>
+            <p class="text-xs mt-3" style="color: var(--text-muted)">
+              Approximate city/region lookup for analytics visibility.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ─── FOOTER ────────────────────────────────────────── -->
     <footer
       class="border-t py-8 px-6"
@@ -1980,6 +2184,234 @@
           renderer.render(scene, camera);
         }
         animate();
+      })();
+
+      /* ──────────────────────────────────────────────────────────
+       6. VISITOR INSIGHTS (Count + Location)
+    ─────────────────────────────────────────────────────────── */
+      (function () {
+        const totalEl = document.getElementById("visitor-total-count");
+        const regionEl = document.getElementById("visitor-region-count");
+        const regionLabelEl = document.getElementById("visitor-region-label");
+        const locationEl = document.getElementById("visitor-location-text");
+        const popWrap = document.getElementById("insights-pop-wrap");
+        const popTrigger = document.getElementById("insights-pop-trigger");
+        const popover = document.getElementById("insights-popover");
+        const popStatus = document.getElementById("insights-pop-status");
+        const popList = document.getElementById("insights-country-list");
+        if (
+          !totalEl ||
+          !regionEl ||
+          !locationEl ||
+          !regionLabelEl ||
+          !popWrap ||
+          !popTrigger ||
+          !popover ||
+          !popStatus ||
+          !popList
+        ) {
+          return;
+        }
+
+        const fmt = new Intl.NumberFormat("en-US");
+        const namespace = "dhruv-kashyap-portfolio-v2";
+        const totalSessionKey = "visitor-insights-total-tracked";
+        let hideTimer = null;
+        let topCountriesLoaded = false;
+        let topCountriesLoading = false;
+        const topCountryCandidates = [
+          { code: "IN", name: "India" },
+          { code: "US", name: "United States" },
+          { code: "GB", name: "United Kingdom" },
+          { code: "CA", name: "Canada" },
+          { code: "AU", name: "Australia" },
+          { code: "DE", name: "Germany" },
+          { code: "FR", name: "France" },
+          { code: "SG", name: "Singapore" },
+          { code: "AE", name: "UAE" },
+          { code: "NL", name: "Netherlands" },
+          { code: "BR", name: "Brazil" },
+          { code: "JP", name: "Japan" },
+        ];
+
+        async function fetchJson(url) {
+          const res = await fetch(url, { cache: "no-store" });
+          if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+          return res.json();
+        }
+
+        async function upsertCounter(counterKey, sessionKey) {
+          const trackedThisSession =
+            sessionStorage.getItem(sessionKey || "") === "1";
+          const op = trackedThisSession ? "get" : "hit";
+          const data = await fetchJson(
+            `https://api.countapi.xyz/${op}/${namespace}/${counterKey}`,
+          );
+          if (!trackedThisSession && sessionKey) {
+            sessionStorage.setItem(sessionKey, "1");
+          }
+          return data && typeof data.value === "number" ? data.value : null;
+        }
+
+        function joinLocation(parts) {
+          return parts.filter(Boolean).join(", ");
+        }
+
+        function clearHideTimer() {
+          if (hideTimer) {
+            clearTimeout(hideTimer);
+            hideTimer = null;
+          }
+        }
+
+        function openPopover() {
+          clearHideTimer();
+          popover.classList.add("open");
+          popover.setAttribute("aria-hidden", "false");
+          void loadTopCountries();
+        }
+
+        function closePopover() {
+          clearHideTimer();
+          popover.classList.remove("open");
+          popover.setAttribute("aria-hidden", "true");
+        }
+
+        function closePopoverSoon(delayMs) {
+          clearHideTimer();
+          hideTimer = setTimeout(() => {
+            closePopover();
+          }, delayMs);
+        }
+
+        function renderTopCountries(rows) {
+          popList.innerHTML = "";
+          rows.forEach((row) => {
+            const li = document.createElement("li");
+            li.className = "insights-country-item";
+            li.innerHTML = `<span>${row.name}</span><span>${fmt.format(row.count)}</span>`;
+            popList.appendChild(li);
+          });
+        }
+
+        async function fetchCountryCount(code) {
+          try {
+            const data = await fetchJson(
+              `https://api.countapi.xyz/get/${namespace}/country-${code.toLowerCase()}`,
+            );
+            return data && typeof data.value === "number" ? data.value : 0;
+          } catch {
+            return 0;
+          }
+        }
+
+        async function loadTopCountries() {
+          if (topCountriesLoaded || topCountriesLoading) return;
+          topCountriesLoading = true;
+          popStatus.textContent = "Loading top countries...";
+
+          try {
+            const rows = await Promise.all(
+              topCountryCandidates.map(async (entry) => ({
+                name: entry.name,
+                count: await fetchCountryCount(entry.code),
+              })),
+            );
+            const topRows = rows
+              .filter((r) => r.count > 0)
+              .sort((a, b) => b.count - a.count)
+              .slice(0, 5);
+
+            if (topRows.length === 0) {
+              popStatus.textContent = "No country data yet.";
+            } else {
+              popStatus.textContent = "Country traffic snapshot";
+              renderTopCountries(topRows);
+            }
+            topCountriesLoaded = true;
+          } catch {
+            popStatus.textContent = "Unable to load right now.";
+          } finally {
+            topCountriesLoading = false;
+          }
+        }
+
+        async function loadInsights() {
+          totalEl.textContent = "...";
+          regionEl.textContent = "...";
+
+          try {
+            const totalCount = await upsertCounter("visits", totalSessionKey);
+            totalEl.textContent =
+              totalCount === null ? "--" : fmt.format(totalCount);
+          } catch {
+            totalEl.textContent = "--";
+          }
+
+          let geo = null;
+          try {
+            geo = await fetchJson("https://ipapi.co/json/");
+          } catch {
+            locationEl.textContent = "Location unavailable";
+            regionEl.textContent = "--";
+            regionLabelEl.textContent = "Visits From Your Region";
+            return;
+          }
+
+          const city = geo.city || "";
+          const region = geo.region || "";
+          const countryName = geo.country_name || "";
+          const countryCode = (geo.country_code || "").toUpperCase();
+          const locationText = joinLocation([city, region, countryName]);
+          locationEl.textContent = locationText || "Location unavailable";
+
+          if (!countryCode) {
+            regionEl.textContent = "--";
+            regionLabelEl.textContent = "Visits From Your Region";
+            return;
+          }
+
+          regionLabelEl.textContent = `Visits From ${countryName || countryCode}`;
+          const countrySessionKey = `visitor-insights-country-${countryCode}`;
+          try {
+            const countryCount = await upsertCounter(
+              `country-${countryCode.toLowerCase()}`,
+              countrySessionKey,
+            );
+            regionEl.textContent =
+              countryCount === null ? "--" : fmt.format(countryCount);
+          } catch {
+            regionEl.textContent = "--";
+          }
+        }
+
+        loadInsights();
+
+        popTrigger.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (popover.classList.contains("open")) {
+            closePopover();
+          } else {
+            openPopover();
+            closePopoverSoon(4200);
+          }
+        });
+
+        popWrap.addEventListener("mouseenter", () => {
+          openPopover();
+        });
+        popWrap.addEventListener("mouseleave", () => {
+          closePopoverSoon(850);
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!popWrap.contains(e.target)) {
+            closePopover();
+          }
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") closePopover();
+        });
       })();
     </script>
   </body>
