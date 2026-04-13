@@ -9,7 +9,7 @@
     <title>Dhruv Kashyap Portfolio</title>
     <meta
       name="description"
-      content="Backend & Full-Stack Software Engineer specializing in AI-powered systems, RAG pipelines, and production-grade APIs."
+      content="Backend &amp; Full-Stack Software Engineer specializing in AI-powered systems, ensemble ML pipelines, RAG, and production-grade APIs."
     />
 
     <!-- Google Fonts: Cormorant Garamond (serif display) + DM Sans (body) -->
@@ -309,51 +309,114 @@
       .project-card {
         background: linear-gradient(
           135deg,
-          rgba(10, 36, 24, 0.95) 0%,
-          rgba(7, 31, 24, 0.95) 100%
+          rgba(10, 36, 24, 0.4) 0%,
+          rgba(7, 31, 24, 0.6) 100%
         );
-        border: 1px solid var(--border-subtle);
-        border-radius: 4px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(201, 168, 76, 0.15);
+        border-radius: 16px;
         position: relative;
         overflow: hidden;
         transition:
           transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-          box-shadow 0.4s;
+          box-shadow 0.4s,
+          border-color 0.4s;
         display: flex;
         flex-direction: column;
       }
       .project-card::before {
         content: "";
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          var(--gold),
-          transparent
+        inset: 0;
+        background: radial-gradient(
+          800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+          rgba(201, 168, 76, 0.08),
+          transparent 40%
         );
         opacity: 0;
-        transition: opacity 0.4s;
+        transition: opacity 0.5s;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .project-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+          rgba(201, 168, 76, 0.15),
+          transparent 40%
+        );
+        opacity: 0;
+        transition: opacity 0.5s;
+        z-index: 0;
+        pointer-events: none;
+        mix-blend-mode: color-dodge;
+      }
+      .project-card > * {
+        z-index: 1; /* keep content above glow */
+        position: relative;
       }
       .project-card:hover {
-        transform: translateY(-6px);
+        transform: translateY(-4px);
+        border-color: rgba(201, 168, 76, 0.35);
         box-shadow:
-          0 32px 64px rgba(0, 0, 0, 0.5),
-          0 0 0 1px rgba(201, 168, 76, 0.2);
+          0 20px 40px rgba(0, 0, 0, 0.4),
+          0 0 20px rgba(201, 168, 76, 0.08);
       }
-      .project-card:hover::before {
+      .project-card:hover::before,
+      .project-card:hover::after {
         opacity: 1;
       }
       @media (max-width: 640px) {
         .project-card {
-          padding: 1.25rem !important;
+          padding: 1.5rem !important;
         }
         .project-card:hover {
-          transform: translateY(-3px);
+          transform: translateY(-2px);
         }
+      }
+
+      /* ─── Featured project card (first project, spans full width) ─── */
+      .project-card--featured {
+        background: linear-gradient(
+          160deg,
+          rgba(15, 48, 32, 0.5) 0%,
+          rgba(10, 36, 24, 0.6) 40%,
+          rgba(7, 31, 24, 0.7) 100%
+        );
+        border-color: rgba(201, 168, 76, 0.25);
+      }
+      .project-card--featured::before {
+        background: radial-gradient(
+          1200px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+          rgba(201, 168, 76, 0.08),
+          transparent 40%
+        );
+      }
+      .project-card--featured .proj-num {
+        font-size: 7.5rem;
+        color: rgba(201, 168, 76, 0.07);
+      }
+
+      /* ─── Project icon badge ─── */
+      .proj-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.35rem;
+        background: rgba(201, 168, 76, 0.08);
+        border: 1px solid rgba(201, 168, 76, 0.18);
+        flex-shrink: 0;
+        transition: background 0.3s, border-color 0.3s;
+      }
+      .project-card:hover .proj-icon {
+        background: rgba(201, 168, 76, 0.14);
+        border-color: rgba(201, 168, 76, 0.35);
       }
 
       /* ─── Project number ─── */
@@ -372,6 +435,24 @@
       }
       .project-card:hover .proj-num {
         color: rgba(201, 168, 76, 0.14);
+      }
+
+      /* ─── Project highlight list ─── */
+      .proj-highlight {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+      .proj-highlight-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--gold);
+        margin-top: 0.5rem;
+        flex-shrink: 0;
       }
 
       /* ─── Timeline (education / cert) ─── */
@@ -974,8 +1055,8 @@
               class="mt-6 text-base leading-relaxed max-w-md reveal"
               style="color: var(--text-muted); transition-delay: 0.2s"
             >
-              Building production-grade backend systems &amp; AI-powered
-              solutions. Oracle-certified in Cloud Infrastructure &amp; AI.
+              Building production-grade backend systems, ensemble ML pipelines
+              &amp; AI-powered solutions. Oracle-certified in Cloud Infrastructure &amp; AI.
             </p>
 
             <!-- CTAs -->
@@ -1132,16 +1213,18 @@
           >
             I'm a Computer Science student with hands-on experience building
             production-grade backend systems, REST APIs, and full-stack web
-            applications. I specialise in designing AI-powered solutions — from
-            RAG pipelines and LLM integrations to cloud-native microservices.
+            applications. I specialise in designing AI-powered solutions, from
+            RAG pipelines and LLM integrations to ensemble ML fraud-detection
+            pipelines and cloud-native microservices.
           </p>
           <p
             class="text-base leading-8 max-w-2xl"
             style="color: var(--text-muted)"
           >
-            Proficient in Python, Java, FastAPI, and Spring Boot, with practical
-            exposure to AWS, Oracle Cloud, Docker, and CI/CD pipelines. I'm
-            passionate about writing clean, scalable, and secure code that
+            Proficient in Python, Java, FastAPI, and Spring Boot, with hands-on
+            experience in scikit-learn, XGBoost, and Streamlit for ML products.
+            Practical exposure to AWS, Oracle Cloud, Docker, and CI/CD pipelines.
+            Passionate about writing clean, scalable, and secure code that
             drives real business outcomes.
           </p>
 
@@ -1180,7 +1263,7 @@
     <!-- ─── PROJECTS ──────────────────────────────────────── -->
     <section id="projects" class="py-28 max-w-7xl mx-auto px-6 lg:px-12">
       <!-- Heading row -->
-      <div class="flex items-end justify-between mb-16 reveal">
+      <div class="flex items-end justify-between mb-20 reveal">
         <div>
           <div class="section-label mb-3" style="color: var(--gold)">
             02 — Selected Work
@@ -1191,117 +1274,121 @@
           >
             Projects <span class="gold-text">&amp; Systems</span>
           </h2>
+          <p class="text-sm mt-4 max-w-lg" style="color: var(--text-muted)">
+            A curated selection of production-grade systems, ML pipelines, and full-stack applications.
+          </p>
         </div>
       </div>
 
-      <!-- Project grid -->
-      <div class="grid lg:grid-cols-2 gap-6">
-        <!-- ─ Project 1: AI Document Intelligence ─ -->
-        <div class="project-card p-8 reveal" style="transition-delay: 0.05s">
-          <div class="proj-num">01</div>
-          <div class="flex items-start justify-between mb-6">
-            <div>
-              <div class="section-label mb-2" style="color: var(--gold)">
-                AI / Backend
+      <!-- Bento Grid -->
+      <div class="grid lg:grid-cols-6 gap-6">
+
+      <!-- ─ FEATURED Project 1: AI Document Intelligence ─ -->
+      <div class="project-card project-card--featured p-8 lg:p-10 reveal lg:col-span-6" style="transition-delay: 0.05s">
+        <div class="proj-num">01</div>
+        <div class="grid lg:grid-cols-5 gap-8">
+          <!-- Left column: info -->
+          <div class="lg:col-span-3">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="proj-icon">⚡</div>
+              <div>
+                <div class="section-label mb-1" style="color: var(--gold)">
+                  AI / Backend - Flagship
+                </div>
+                <h3 class="font-serif text-2xl lg:text-3xl" style="color: var(--alabaster)">
+                  RAGnarok - AI Document Intelligence
+                </h3>
               </div>
-              <h3 class="font-serif text-2xl" style="color: var(--alabaster)">
-                RAGnarok - AI Document Intelligence
-              </h3>
             </div>
-            <div class="text-2xl ml-4">⚡</div>
+            <p class="text-sm leading-7 mb-6" style="color: var(--text-muted)">
+              A FastAPI backend enabling semantic search and AI-powered Q&amp;A
+              over uploaded PDFs using a
+              <strong style="color: var(--gold-light)"
+                >Retrieval-Augmented Generation (RAG)</strong
+              >
+              pipeline integrated with OpenAI. Features pgvector for vector
+              similarity search and Redis/DiceDB caching to significantly reduce
+              response latency.
+            </p>
           </div>
-          <p class="text-sm leading-7 mb-6" style="color: var(--text-muted)">
-            A FastAPI backend enabling semantic search and AI-powered Q&amp;A
-            over uploaded PDFs using a
-            <strong style="color: var(--gold-light)"
-              >Retrieval-Augmented Generation (RAG)</strong
-            >
-            pipeline integrated with OpenAI. Features pgvector for vector
-            similarity search and Redis/DiceDB caching to significantly reduce
-            response latency.
-          </p>
-          <!-- Highlights list -->
-          <ul class="space-y-2 mb-8">
-            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
-              <span style="color: var(--gold)">—</span> PostgreSQL schema with
-              pgvector for document embeddings
-            </li>
-            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
-              <span style="color: var(--gold)">—</span> End-to-end PDF
-              extraction, chunking &amp; embedding pipeline
-            </li>
-            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
-              <span style="color: var(--gold)">—</span> JWT authentication +
-              fastapi-guard security layer
-            </li>
-          </ul>
-          <!-- Tech pills -->
-          <div class="flex flex-wrap gap-2 mb-6">
-            <span class="skill-badge">FastAPI</span>
-            <span class="skill-badge">PostgreSQL</span>
-            <span class="skill-badge">pgvector</span>
-            <span class="skill-badge">OpenAI</span>
-            <span class="skill-badge">Redis</span>
-            <span class="skill-badge">RAG</span>
+          <!-- Right column: highlights + tech -->
+          <div class="lg:col-span-2">
+            <div class="space-y-3 mb-8">
+              <div class="proj-highlight">
+                <div class="proj-highlight-dot"></div>
+                <span>PostgreSQL schema with pgvector for document embeddings</span>
+              </div>
+              <div class="proj-highlight">
+                <div class="proj-highlight-dot"></div>
+                <span>End-to-end PDF extraction, chunking &amp; embedding pipeline</span>
+              </div>
+              <div class="proj-highlight">
+                <div class="proj-highlight-dot"></div>
+                <span>JWT authentication + fastapi-guard security layer</span>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="skill-badge">FastAPI</span>
+              <span class="skill-badge">PostgreSQL</span>
+              <span class="skill-badge">pgvector</span>
+              <span class="skill-badge">OpenAI</span>
+              <span class="skill-badge">Redis</span>
+              <span class="skill-badge">RAG</span>
+            </div>
           </div>
-          <!-- GitHub button -->
-          <div class="flex items-center justify-between mt-auto">
-            <a
-              href="https://ragnarok-yn7t.onrender.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="github-btn"
-            >
-              <svg viewBox="0 0 16 16" aria-hidden="true">
+        </div>
+        <!-- Footer -->
+        <div class="flex items-center justify-between mt-4 pt-5" style="border-top: 1px solid var(--border-subtle)">
+          <a
+            href="https://ragnarok-yn7t.onrender.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="github-btn"
+          >
+            <svg viewBox="0 0 16 16" aria-hidden="true">
                 <path
                   d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
                 />
               </svg>
-              <span>LIVE PREVIEW</span>
-            </a>
-            <span class="section-label" style="color: var(--text-muted)"
-              >2026</span
-            >
-          </div>
+            <span>LIVE PREVIEW</span>
+          </a>
+          <span class="section-label" style="color: var(--text-muted)">2026</span>
         </div>
+      </div>
 
-        <!-- ─ Project 2: Agriculture Analytics ─ -->
-        <div class="project-card p-8 reveal" style="transition-delay: 0.1s">
+      <!-- ─ Project 2: Agriculture Analytics ─ -->
+      <div class="project-card p-7 reveal lg:col-span-4" style="transition-delay: 0.1s">
           <div class="proj-num">02</div>
-          <div class="flex items-start justify-between mb-6">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="proj-icon">📊</div>
             <div>
-              <div class="section-label mb-2" style="color: var(--gold)">
+              <div class="section-label mb-1" style="color: var(--gold)">
                 Data Engineering
               </div>
-              <h3 class="font-serif text-2xl" style="color: var(--alabaster)">
-                Agriculture Yield Prediction &amp; Analytics
+              <h3 class="font-serif text-xl" style="color: var(--alabaster)">
+                Agriculture Yield Prediction
               </h3>
             </div>
-            <div class="text-2xl ml-4">📊</div>
           </div>
-          <p class="text-sm leading-7 mb-6" style="color: var(--text-muted)">
-            An end-to-end ETL pipeline ingesting 6 raw CSV datasets into a
-            <strong style="color: var(--gold-light)"
-              >Snowflake star schema</strong
-            >
-            with PySpark batch jobs for large-scale yield aggregation, rolling
-            averages, and profit calculations. Enterprise RBAC with column-level
-            views.
+          <p class="text-sm leading-7 mb-5" style="color: var(--text-muted)">
+            End-to-end ETL into a
+            <strong style="color: var(--gold-light)">Snowflake star schema</strong>
+            with PySpark batch jobs for yield aggregation, rolling averages, and enterprise RBAC.
           </p>
-          <ul class="space-y-2 mb-8">
-            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
-              <span style="color: var(--gold)">—</span> 4 dimension tables, 1
-              fact table with custom profitability metrics
-            </li>
-            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
-              <span style="color: var(--gold)">—</span> Streamlit &amp; Plotly
-              dashboard with 5 analytical views
-            </li>
-            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
-              <span style="color: var(--gold)">—</span> RBAC: ETL &amp; Analyst
-              roles with secure column-level access
-            </li>
-          </ul>
+          <div class="space-y-2 mb-6">
+            <div class="proj-highlight">
+              <div class="proj-highlight-dot"></div>
+              <span>4 dimension + 1 fact table with profitability metrics</span>
+            </div>
+            <div class="proj-highlight">
+              <div class="proj-highlight-dot"></div>
+              <span>Streamlit &amp; Plotly dashboard with 5 views</span>
+            </div>
+            <div class="proj-highlight">
+              <div class="proj-highlight-dot"></div>
+              <span>RBAC with secure column-level access</span>
+            </div>
+          </div>
           <div class="flex flex-wrap gap-2 mb-6">
             <span class="skill-badge">Python</span>
             <span class="skill-badge">PySpark</span>
@@ -1309,7 +1396,6 @@
             <span class="skill-badge">Streamlit</span>
             <span class="skill-badge">SQL</span>
           </div>
-          <!-- GitHub button -->
           <div class="flex items-center justify-between mt-auto">
             <a
               href="https://github.com/dhruv-kashyap47/agriculture-yield-prediction-system"
@@ -1322,60 +1408,51 @@
                   d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
                 />
               </svg>
-              <span>View Source</span>
+              <span>Source</span>
             </a>
-            <span class="section-label" style="color: var(--text-muted)"
-              >2026</span
-            >
+            <span class="section-label" style="color: var(--text-muted)">2026</span>
           </div>
         </div>
 
         <!-- ─ Project 3: TaskFlow ─ -->
-        <div class="project-card p-8 reveal" style="transition-delay: 0.15s">
+        <div class="project-card p-7 reveal lg:col-span-2" style="transition-delay: 0.15s">
           <div class="proj-num">03</div>
-          <div class="flex items-start justify-between mb-6">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="proj-icon">🗂️</div>
             <div>
-              <div class="section-label mb-2" style="color: var(--gold)">
+              <div class="section-label mb-1" style="color: var(--gold)">
                 DevOps / Backend
               </div>
-              <h3 class="font-serif text-2xl" style="color: var(--alabaster)">
-                TaskFlow — Task Management System
+              <h3 class="font-serif text-xl" style="color: var(--alabaster)">
+                TaskFlow - Task Manager
               </h3>
             </div>
-            <div class="text-2xl ml-4">🗂️</div>
           </div>
-          <p class="text-sm leading-7 mb-6" style="color: var(--text-muted)">
-            A
-            <strong style="color: var(--gold-light)"
-              >Spring Boot REST API</strong
-            >
-            with full CRUD over MySQL, structured across
-            model/repository/service layers following SOLID principles.
-            Containerised with Docker Compose for single-command deployment and
-            GitHub Actions CI/CD for every push.
+          <p class="text-sm leading-7 mb-5" style="color: var(--text-muted)">
+            A <strong style="color: var(--gold-light)">Spring Boot REST API</strong>
+            with full CRUD over MySQL, containerised with Docker Compose and CI/CD via GitHub Actions.
           </p>
-          <ul class="space-y-2 mb-8">
-            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
-              <span style="color: var(--gold)">—</span> Automated CI/CD pipeline
-              catching integration issues early
-            </li>
-            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
-              <span style="color: var(--gold)">—</span> All 8 endpoints
-              documented in Postman collection
-            </li>
-            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
-              <span style="color: var(--gold)">—</span> OOP &amp; SOLID design
-              throughout service layer
-            </li>
-          </ul>
+          <div class="space-y-2 mb-6">
+            <div class="proj-highlight">
+              <div class="proj-highlight-dot"></div>
+              <span>Automated CI/CD catching issues early</span>
+            </div>
+            <div class="proj-highlight">
+              <div class="proj-highlight-dot"></div>
+              <span>8 endpoints documented in Postman</span>
+            </div>
+            <div class="proj-highlight">
+              <div class="proj-highlight-dot"></div>
+              <span>OOP &amp; SOLID design throughout</span>
+            </div>
+          </div>
           <div class="flex flex-wrap gap-2 mb-6">
             <span class="skill-badge">Java</span>
             <span class="skill-badge">Spring Boot</span>
             <span class="skill-badge">MySQL</span>
             <span class="skill-badge">Docker</span>
-            <span class="skill-badge">GitHub Actions</span>
+            <span class="skill-badge">CI/CD</span>
           </div>
-          <!-- GitHub button -->
           <div class="flex items-center justify-between mt-auto">
             <a
               href="https://github.com/dhruv-kashyap47/TaskFlow"
@@ -1388,59 +1465,58 @@
                   d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
                 />
               </svg>
-              <span>View Source</span>
+              <span>Source</span>
             </a>
-            <span class="section-label" style="color: var(--text-muted)"
-              >2025</span
-            >
+            <span class="section-label" style="color: var(--text-muted)">2025</span>
           </div>
         </div>
 
-        <!-- ─ Project 4: Expense Tracker API ─ -->
-        <div class="project-card p-8 reveal" style="transition-delay: 0.2s">
+        <!-- ─ Project 4: Neural Fraud Sentinel ─ -->
+        <div class="project-card p-7 reveal lg:col-span-6" style="transition-delay: 0.2s">
           <div class="proj-num">04</div>
-          <div class="flex items-start justify-between mb-6">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="proj-icon">🛡️</div>
             <div>
-              <div class="section-label mb-2" style="color: var(--gold)">
-                REST API
+              <div class="section-label mb-1" style="color: var(--gold)">
+                ML / Data Science
               </div>
-              <h3 class="font-serif text-2xl" style="color: var(--alabaster)">
-                Expense Tracker API
+              <h3 class="font-serif text-xl" style="color: var(--alabaster)">
+                Neural Fraud Sentinel
               </h3>
             </div>
-            <div class="text-2xl ml-4">💳</div>
           </div>
-          <p class="text-sm leading-7 mb-6" style="color: var(--text-muted)">
-            A
-            <strong style="color: var(--gold-light)">FastAPI REST API</strong>
-            with 7 endpoints for full CRUD on expenses, category-based
-            filtering, and dynamic total calculation. Input validation enforced
-            via Pydantic models with self-documentation through Swagger UI.
+          <p class="text-sm leading-7 mb-5" style="color: var(--text-muted)">
+            A production-grade
+            <strong style="color: var(--gold-light)">fraud detection engine</strong>
+            built on an ensemble of 6 ML models - including XGBoost, Random Forest, and Stacking classifiers, trained on
+            284K+ real-world credit card transactions. Tackles extreme class imbalance (~0.17% fraud) with SMOTE oversampling
+            and delivers an interactive Streamlit dashboard for real-time model training, evaluation, and live predictions.
           </p>
-          <ul class="space-y-2 mb-8">
-            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
-              <span style="color: var(--gold)">—</span> Pydantic models for
-              strict input validation &amp; data integrity
-            </li>
-            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
-              <span style="color: var(--gold)">—</span> Proper HTTP status codes
-              &amp; structured error handling
-            </li>
-            <li class="flex gap-2 text-sm" style="color: var(--text-muted)">
-              <span style="color: var(--gold)">—</span> Auto-documented via
-              FastAPI Swagger UI + Postman verified
-            </li>
-          </ul>
-          <div class="flex flex-wrap gap-2 mb-6">
-            <span class="skill-badge">FastAPI</span>
-            <span class="skill-badge">Python</span>
-            <span class="skill-badge">Pydantic</span>
-            <span class="skill-badge">Uvicorn</span>
+          <div class="space-y-2 mb-6">
+            <div class="proj-highlight">
+              <div class="proj-highlight-dot"></div>
+              <span>Automated best-model selection by ROC-AUC</span>
+            </div>
+            <div class="proj-highlight">
+              <div class="proj-highlight-dot"></div>
+              <span>Live training with ROC curves &amp; confusion matrices</span>
+            </div>
+            <div class="proj-highlight">
+              <div class="proj-highlight-dot"></div>
+              <span>Production export via <code style="color: var(--gold-light); font-size: 0.9em">best_model.pkl</code></span>
+            </div>
           </div>
-          <!-- GitHub button -->
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="skill-badge">Python</span>
+            <span class="skill-badge">scikit-learn</span>
+            <span class="skill-badge">XGBoost</span>
+            <span class="skill-badge">SMOTE</span>
+            <span class="skill-badge">Streamlit</span>
+            <span class="skill-badge">Pandas</span>
+          </div>
           <div class="flex items-center justify-between mt-auto">
             <a
-              href="https://github.com/dhruv-kashyap47/expense-tracker-api"
+              href="https://neural-fraud-sentinal.streamlit.app/"
               target="_blank"
               rel="noopener noreferrer"
               class="github-btn"
@@ -1450,11 +1526,9 @@
                   d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
                 />
               </svg>
-              <span>View Source</span>
+              <span>LIVE APP</span>
             </a>
-            <span class="section-label" style="color: var(--text-muted)"
-              >2025</span
-            >
+            <span class="section-label" style="color: var(--text-muted)">2025</span>
           </div>
         </div>
       </div>
@@ -1521,6 +1595,11 @@
                 <span class="skill-badge">Prompt Eng.</span>
                 <span class="skill-badge">LLM Integration</span>
                 <span class="skill-badge">pgvector</span>
+                <span class="skill-badge">scikit-learn</span>
+                <span class="skill-badge">XGBoost</span>
+                <span class="skill-badge">SMOTE</span>
+                <span class="skill-badge">Seaborn</span>
+                <span class="skill-badge">joblib</span>
               </div>
             </div>
 
@@ -1731,7 +1810,7 @@
           <span
             class="section-label"
             style="color: var(--text-muted); white-space: nowrap"
-            >Bhubaneswar, India · Available for Remote</span
+            >Bhubaneswar, India</span
           >
         </div>
       </div>
@@ -1740,103 +1819,37 @@
     <!-- gold divider -->
     <div class="gold-line"></div>
 
-    <!-- ─── VISITOR INSIGHTS ───────────────────────── -->
-    <section id="insights" class="py-20 max-w-7xl mx-auto px-6 lg:px-12">
+    <!-- ─── DINO GAME ───────────────────────────────── -->
+    <section id="dino-game" class="py-20 max-w-7xl mx-auto px-6 lg:px-12">
       <div class="reveal">
-        <div class="insights-head mb-3">
-          <div class="section-label" style="color: var(--gold)">
-            07 — Visitor Insights
-          </div>
-          <div class="insights-pop-wrap" id="insights-pop-wrap">
-            <button
-              id="insights-pop-trigger"
-              class="insights-pop-trigger"
-              type="button"
-              aria-label="Show top visitor countries"
-            >
-              🌍
-            </button>
-            <div
-              id="insights-popover"
-              class="insights-popover"
-              aria-hidden="true"
-            >
-              <div class="section-label" style="color: var(--gold)">
-                Top Countries
-              </div>
-              <p
-                id="insights-pop-status"
-                class="text-xs mt-2"
-                style="color: var(--text-muted)"
-              >
-                Hover or tap to load.
-              </p>
-              <ul id="insights-country-list" class="insights-country-list"></ul>
-            </div>
-          </div>
+        <div class="section-label mb-3" style="color: var(--gold)">
+          07 — Take a Break
         </div>
         <h2
           class="font-serif italic text-4xl lg:text-5xl mb-4"
           style="color: var(--alabaster); line-height: 1.1"
         >
-          Live <span class="gold-text">Audience Snapshot</span>
+          Blade <span class="gold-text">Runner</span>
         </h2>
-        <p class="text-sm mb-10 max-w-2xl" style="color: var(--text-muted)">
-          A lightweight real-time view of overall traffic and visitor location.
+        <p class="text-sm mb-8 max-w-2xl" style="color: var(--text-muted)">
+          Press <strong style="color: var(--gold-light)">Space</strong> or <strong style="color: var(--gold-light)">tap</strong> the canvas to jump. How far can you go?
         </p>
 
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="project-card p-6">
-            <div class="section-label mb-2" style="color: var(--gold)">
-              Total Visits
-            </div>
-            <div
-              id="visitor-total-count"
-              class="font-serif text-4xl"
-              style="color: var(--alabaster)"
-            >
-              --
-            </div>
-            <p class="text-xs mt-3" style="color: var(--text-muted)">
-              Global page loads tracked across deployments.
-            </p>
-          </div>
-
-          <div class="project-card p-6">
-            <div
-              id="visitor-region-label"
-              class="section-label mb-2"
-              style="color: var(--gold)"
-            >
-              Visits From Your Region
-            </div>
-            <div
-              id="visitor-region-count"
-              class="font-serif text-4xl"
-              style="color: var(--alabaster)"
-            >
-              --
-            </div>
-            <p class="text-xs mt-3" style="color: var(--text-muted)">
-              Country-level count based on current visitor IP location.
-            </p>
-          </div>
-
-          <div class="project-card p-6 sm:col-span-2 lg:col-span-1">
-            <div class="section-label mb-2" style="color: var(--gold)">
-              Current Visitor Location
-            </div>
-            <div
-              id="visitor-location-text"
-              class="text-base leading-7"
-              style="color: var(--alabaster)"
-            >
-              Detecting location...
-            </div>
-            <p class="text-xs mt-3" style="color: var(--text-muted)">
-              Approximate city/region lookup for analytics visibility.
-            </p>
-          </div>
+        <div class="project-card p-1" style="max-width: 700px">
+          <canvas
+            id="dino-canvas"
+            width="700"
+            height="200"
+            style="width: 100%; height: auto; display: block; border-radius: 6px; background: #071f18; cursor: pointer;"
+          ></canvas>
+        </div>
+        <div class="flex items-center gap-6 mt-4">
+          <span class="section-label" style="color: var(--text-muted)">
+            Score: <span id="dino-score" style="color: var(--gold-light)">0</span>
+          </span>
+          <span class="section-label" style="color: var(--text-muted)">
+            Best: <span id="dino-best" style="color: var(--gold-light)">0</span>
+          </span>
         </div>
       </div>
     </section>
@@ -1854,9 +1867,6 @@
         >
         <span class="text-xs" style="color: var(--text-muted)"
           >© 2026 · Built with precision &amp; craft</span
-        >
-        <span class="text-xs" style="color: var(--text-muted)"
-          >7468dhruv@gmail.com</span
         >
       </div>
     </footer>
@@ -2187,231 +2197,357 @@
       })();
 
       /* ──────────────────────────────────────────────────────────
-       6. VISITOR INSIGHTS (Count + Location)
-    ─────────────────────────────────────────────────────────── */
+         5b. PROJECT CARD GLOW EFFECTS
+      ─────────────────────────────────────────────────────────── */
+      document.querySelectorAll(".project-card").forEach(card => {
+        card.addEventListener("mousemove", e => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty("--mouse-x", `${x}px`);
+          card.style.setProperty("--mouse-y", `${y}px`);
+        });
+      });
+
+      /* ──────────────────────────────────────────────────────────
+         6. SYNTHWAVE NEON RUNNER (DINO GAME UPGRADE)
+      ─────────────────────────────────────────────────────────── */
       (function () {
-        const totalEl = document.getElementById("visitor-total-count");
-        const regionEl = document.getElementById("visitor-region-count");
-        const regionLabelEl = document.getElementById("visitor-region-label");
-        const locationEl = document.getElementById("visitor-location-text");
-        const popWrap = document.getElementById("insights-pop-wrap");
-        const popTrigger = document.getElementById("insights-pop-trigger");
-        const popover = document.getElementById("insights-popover");
-        const popStatus = document.getElementById("insights-pop-status");
-        const popList = document.getElementById("insights-country-list");
-        if (
-          !totalEl ||
-          !regionEl ||
-          !locationEl ||
-          !regionLabelEl ||
-          !popWrap ||
-          !popTrigger ||
-          !popover ||
-          !popStatus ||
-          !popList
-        ) {
-          return;
-        }
+        const canvas = document.getElementById("dino-canvas");
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        
+        const W = 700;
+        const H = 200;
+        
+        // High-DPI scaling for Retina/4K displays
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        ctx.scale(dpr, dpr);
 
-        const fmt = new Intl.NumberFormat("en-US");
-        const namespace = "dhruv-kashyap-portfolio-v2";
-        const totalSessionKey = "visitor-insights-total-tracked";
-        let hideTimer = null;
-        let topCountriesLoaded = false;
-        let topCountriesLoading = false;
-        const topCountryCandidates = [
-          { code: "IN", name: "India" },
-          { code: "US", name: "United States" },
-          { code: "GB", name: "United Kingdom" },
-          { code: "CA", name: "Canada" },
-          { code: "AU", name: "Australia" },
-          { code: "DE", name: "Germany" },
-          { code: "FR", name: "France" },
-          { code: "SG", name: "Singapore" },
-          { code: "AE", name: "UAE" },
-          { code: "NL", name: "Netherlands" },
-          { code: "BR", name: "Brazil" },
-          { code: "JP", name: "Japan" },
-        ];
+        const scoreEl = document.getElementById("dino-score");
+        const bestEl = document.getElementById("dino-best");
 
-        async function fetchJson(url) {
-          const res = await fetch(url, { cache: "no-store" });
-          if (!res.ok) throw new Error(`Request failed: ${res.status}`);
-          return res.json();
-        }
+        const COL_BG = "#051A15";
+        const COL_GRID = "rgba(20, 150, 100, 0.45)"; // Neon green
+        const COL_GOLD = "#C9A84C";
+        const COL_DINO = "#00FF9D"; // Electric glowing emerald
+        const COL_OBSTACLE = "#FF0055"; // Neon pink/red danger
 
-        async function upsertCounter(counterKey, sessionKey) {
-          const trackedThisSession =
-            sessionStorage.getItem(sessionKey || "") === "1";
-          const op = trackedThisSession ? "get" : "hit";
-          const data = await fetchJson(
-            `https://api.countapi.xyz/${op}/${namespace}/${counterKey}`,
-          );
-          if (!trackedThisSession && sessionKey) {
-            sessionStorage.setItem(sessionKey, "1");
-          }
-          return data && typeof data.value === "number" ? data.value : null;
-        }
+        const GROUND_Y = H - 30;
+        const GRAVITY = 0.65;
+        const JUMP_FORCE = -11.5;
 
-        function joinLocation(parts) {
-          return parts.filter(Boolean).join(", ");
-        }
+        // Vector hitbox smaller than draws
+        let dino = { x: 50, y: GROUND_Y - 26, w: 22, h: 26, vy: 0, grounded: true };
+        
+        let obstacles = [];
+        let particles = [];
+        let frame = 0;
+        let score = 0;
+        let best = parseInt(localStorage.getItem("dino-best") || "0", 10);
+        let speed = 5.5;
+        let gameOver = false;
+        let started = false;
+        let obstacleTimer = 0;
+        let shake = 0;
 
-        function clearHideTimer() {
-          if (hideTimer) {
-            clearTimeout(hideTimer);
-            hideTimer = null;
+        // Better platformer mechanics
+        let spaceDown = false;
+        let jumpBuffer = 0;
+
+        if (bestEl) bestEl.textContent = best;
+
+        function spawnParticles(px, py, count, col) {
+          for (let i = 0; i < count; i++) {
+            particles.push({
+              x: px, y: py,
+              vx: (Math.random() - 0.5) * 8,
+              vy: (Math.random() - 1) * 7.5,
+              life: 1.0,
+              col: col
+            });
           }
         }
 
-        function openPopover() {
-          clearHideTimer();
-          popover.classList.add("open");
-          popover.setAttribute("aria-hidden", "false");
-          void loadTopCountries();
+        function triggerDeath() {
+           gameOver = true;
+           shake = 18;
+           spawnParticles(dino.x + 10, dino.y + 10, 40, COL_DINO);
+           spawnParticles(dino.x + 10, dino.y + 10, 30, COL_OBSTACLE);
+           if (score > best) { 
+               best = score; 
+               localStorage.setItem("dino-best", best); 
+               if (bestEl) bestEl.textContent = best; 
+           }
         }
 
-        function closePopover() {
-          clearHideTimer();
-          popover.classList.remove("open");
-          popover.setAttribute("aria-hidden", "true");
-        }
-
-        function closePopoverSoon(delayMs) {
-          clearHideTimer();
-          hideTimer = setTimeout(() => {
-            closePopover();
-          }, delayMs);
-        }
-
-        function renderTopCountries(rows) {
-          popList.innerHTML = "";
-          rows.forEach((row) => {
-            const li = document.createElement("li");
-            li.className = "insights-country-item";
-            li.innerHTML = `<span>${row.name}</span><span>${fmt.format(row.count)}</span>`;
-            popList.appendChild(li);
-          });
-        }
-
-        async function fetchCountryCount(code) {
-          try {
-            const data = await fetchJson(
-              `https://api.countapi.xyz/get/${namespace}/country-${code.toLowerCase()}`,
-            );
-            return data && typeof data.value === "number" ? data.value : 0;
-          } catch {
-            return 0;
-          }
-        }
-
-        async function loadTopCountries() {
-          if (topCountriesLoaded || topCountriesLoading) return;
-          topCountriesLoading = true;
-          popStatus.textContent = "Loading top countries...";
-
-          try {
-            const rows = await Promise.all(
-              topCountryCandidates.map(async (entry) => ({
-                name: entry.name,
-                count: await fetchCountryCount(entry.code),
-              })),
-            );
-            const topRows = rows
-              .filter((r) => r.count > 0)
-              .sort((a, b) => b.count - a.count)
-              .slice(0, 5);
-
-            if (topRows.length === 0) {
-              popStatus.textContent = "No country data yet.";
-            } else {
-              popStatus.textContent = "Country traffic snapshot";
-              renderTopCountries(topRows);
+        /* ── Input Handlers ── */
+        function handleDown(e) {
+          // Prevent default scrolling for touch or space if interacting
+          if (e.code === "Space" || e.code === "ArrowUp" || e.type === "touchstart" || e.type === "mousedown") {
+            if(e.cancelable && e.type !== "mousedown") e.preventDefault();
+            
+            if (!started) { started = true; gameOver = false; }
+            if (gameOver) {
+              // Reboot sequence
+              dino.y = GROUND_Y - dino.h; dino.vy = 0; dino.grounded = true;
+              obstacles = []; particles = []; frame = 0; score = 0; speed = 5.5; obstacleTimer = 0;
+              gameOver = false; started = true; shake = 0;
             }
-            topCountriesLoaded = true;
-          } catch {
-            popStatus.textContent = "Unable to load right now.";
-          } finally {
-            topCountriesLoading = false;
+            spaceDown = true;
+            jumpBuffer = 6; // Frames of leniency
           }
         }
+        function handleUp(e) {
+           if (e.code === "Space" || e.code === "ArrowUp" || e.type === "touchend" || e.type === "mouseup") {
+             spaceDown = false;
+           }
+        }
 
-        async function loadInsights() {
-          totalEl.textContent = "...";
-          regionEl.textContent = "...";
+        document.addEventListener("keydown", handleDown, { passive: false });
+        document.addEventListener("keyup", handleUp);
+        canvas.addEventListener("mousedown", handleDown);
+        canvas.addEventListener("mouseup", handleUp);
+        canvas.addEventListener("touchstart", handleDown, { passive: false });
+        canvas.addEventListener("touchend", handleUp, { passive: false });
 
-          try {
-            const totalCount = await upsertCounter("visits", totalSessionKey);
-            totalEl.textContent =
-              totalCount === null ? "--" : fmt.format(totalCount);
-          } catch {
-            totalEl.textContent = "--";
-          }
+        function rectsOverlap(a, b) {
+          return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+        }
 
-          let geo = null;
-          try {
-            geo = await fetchJson("https://ipapi.co/json/");
-          } catch {
-            locationEl.textContent = "Location unavailable";
-            regionEl.textContent = "--";
-            regionLabelEl.textContent = "Visits From Your Region";
+        function update() {
+          if (gameOver || !started) {
+            // Cool down particles even when dead
+            for (let i = particles.length - 1; i >= 0; i--) {
+              let p = particles[i];
+              p.x += p.vx; p.y += p.vy; p.life -= 0.025;
+              if (p.life <= 0) particles.splice(i, 1);
+            }
             return;
           }
 
-          const city = geo.city || "";
-          const region = geo.region || "";
-          const countryName = geo.country_name || "";
-          const countryCode = (geo.country_code || "").toUpperCase();
-          const locationText = joinLocation([city, region, countryName]);
-          locationEl.textContent = locationText || "Location unavailable";
-
-          if (!countryCode) {
-            regionEl.textContent = "--";
-            regionLabelEl.textContent = "Visits From Your Region";
-            return;
+          /* Jump Buffering Logic */
+          if (jumpBuffer > 0) {
+            jumpBuffer--;
+            if (dino.grounded) {
+              dino.vy = JUMP_FORCE;
+              dino.grounded = false;
+              jumpBuffer = 0;
+              spawnParticles(dino.x + 10, GROUND_Y, 10, COL_DINO);
+            }
+          }
+          
+          /* Variable Jump (e.g. short hop if released) */
+          if (!spaceDown && dino.vy < -2) {
+            dino.vy *= 0.65; 
           }
 
-          regionLabelEl.textContent = `Visits From ${countryName || countryCode}`;
-          const countrySessionKey = `visitor-insights-country-${countryCode}`;
-          try {
-            const countryCount = await upsertCounter(
-              `country-${countryCode.toLowerCase()}`,
-              countrySessionKey,
-            );
-            regionEl.textContent =
-              countryCount === null ? "--" : fmt.format(countryCount);
-          } catch {
-            regionEl.textContent = "--";
+          /* Gravity & Collision */
+          dino.vy += GRAVITY;
+          dino.y += dino.vy;
+          if (dino.y >= GROUND_Y - dino.h) {
+            if (!dino.grounded) {
+              // Impact dust upon hitting the synthetic ground
+              spawnParticles(dino.x + 10, GROUND_Y, 6, COL_GRID);
+            }
+            dino.y = GROUND_Y - dino.h;
+            dino.vy = 0;
+            dino.grounded = true;
+          }
+
+          /* Light Trail Particles */
+          if (dino.grounded && frame % 5 === 0) {
+             particles.push({ x: dino.x, y: GROUND_Y, vx: -speed*0.6, vy: Math.random()*-1, life: 1, col: COL_DINO });
+          }
+
+          /* Obstacle Spawning */
+          obstacleTimer++;
+          const gap = Math.max(40, Math.floor(100 - speed * 4));
+          if (obstacleTimer > gap) {
+            const isTall = Math.random() > 0.5;
+            const h = isTall ? 32 : 22;
+            const w = isTall ? 14 : 20;
+            obstacles.push({ x: W + 10, y: GROUND_Y - h, w, h });
+            // Add a secondary gap to prevent impossible clumps
+            obstacleTimer = -Math.floor(Math.random() * 20); 
+          }
+
+          /* Run Obstacles */
+          for (let i = obstacles.length - 1; i >= 0; i--) {
+            obstacles[i].x -= speed;
+            if (obstacles[i].x + obstacles[i].w < 0) { obstacles.splice(i, 1); continue; }
+            
+            // Forgiving Hitbox: We shrink the collision bounding box slightly 
+            // inside the visual parameters to ensure the player feels it's fair.
+            const dHitbox = { x: dino.x + 4, y: dino.y + 4, w: dino.w - 8, h: dino.h - 4 };
+            const oHitbox = { x: obstacles[i].x + 4, y: obstacles[i].y + 4, w: obstacles[i].w - 8, h: obstacles[i].h - 4 };
+
+            if (rectsOverlap(dHitbox, oHitbox)) {
+              triggerDeath();
+            }
+          }
+
+          /* Simulate Particles */
+          for (let i = particles.length - 1; i >= 0; i--) {
+            let p = particles[i];
+            p.x += p.vx; p.y += p.vy; p.life -= 0.035;
+            if (p.life <= 0) particles.splice(i, 1);
+          }
+
+          /* Advance frame, update DOM, and scale difficulty */
+          frame++;
+          score = Math.floor(frame / 6);
+          if (scoreEl) scoreEl.textContent = score;
+          speed = 5.5 + frame * 0.0025;
+        }
+
+        function draw() {
+          ctx.clearRect(0, 0, W, H);
+          ctx.save();
+          
+          if (shake > 0) {
+             ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake);
+             shake *= 0.85;
+             if (shake < 0.5) shake = 0;
+          }
+
+          /* Background Solid */
+          ctx.fillStyle = COL_BG;
+          ctx.fillRect(0, 0, W, H);
+
+          /* Perspective Ground Grid (Synthwave style) */
+          ctx.strokeStyle = COL_GRID;
+          ctx.lineWidth = 1.5;
+          const bgOffset = (frame * speed * 0.4) % 60;
+          
+          // Horizontal receding lines
+          for (let i = 0; i < 5; i++) {
+             let y = GROUND_Y + i * i * 2.5;
+             if (y > H) break;
+             ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+          }
+          // Vertical lines spreading outward
+          for (let x = -bgOffset - W; x < W * 2; x += 60) {
+             ctx.beginPath();
+             let dx = x - W/2;
+             // They skew outwards to create perspective
+             ctx.moveTo(W/2 + dx*0.1, GROUND_Y);
+             ctx.lineTo(W/2 + dx*1.8, H);
+             ctx.stroke();
+          }
+
+          /* Horizon Glow Line */
+          ctx.shadowBlur = 15;
+          ctx.shadowColor = COL_GRID;
+          ctx.strokeStyle = COL_GRID;
+          ctx.lineWidth = 2.5;
+          ctx.beginPath(); ctx.moveTo(0, GROUND_Y); ctx.lineTo(W, GROUND_Y); ctx.stroke();
+          ctx.shadowBlur = 0; // reset
+
+          /* Entities & Particles Setup */
+          ctx.globalCompositeOperation = "screen";
+
+          /* Obstacles (Neon Pink Triangles/Pyramids) */
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = COL_OBSTACLE;
+          ctx.fillStyle = COL_OBSTACLE;
+          for (const obs of obstacles) {
+             ctx.beginPath();
+             ctx.moveTo(obs.x + obs.w/2, obs.y); // Peak
+             ctx.lineTo(obs.x + obs.w, obs.y + obs.h); // Bottom Right
+             ctx.lineTo(obs.x, obs.y + obs.h); // Bottom Left
+             ctx.closePath();
+             ctx.fill();
+             
+             // Inner core (white-hot center)
+             ctx.fillStyle = "#fff";
+             ctx.globalAlpha = 0.8;
+             ctx.beginPath();
+             ctx.moveTo(obs.x + obs.w/2, obs.y + 6);
+             ctx.lineTo(obs.x + obs.w - 3, obs.y + obs.h - 1);
+             ctx.lineTo(obs.x + 3, obs.y + obs.h - 1);
+             ctx.fill();
+             ctx.globalAlpha = 1.0;
+             ctx.fillStyle = COL_OBSTACLE; // reset for next
+          }
+
+          /* Particles */
+          for (const p of particles) {
+             ctx.globalAlpha = p.life;
+             ctx.fillStyle = p.col;
+             ctx.shadowBlur = Math.random() * 10 + 5;
+             ctx.shadowColor = p.col;
+             ctx.beginPath();
+             ctx.arc(p.x, p.y, Math.random()*2 + 1.5, 0, Math.PI*2);
+             ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+          ctx.shadowBlur = 0;
+
+          /* The Player Entity (Glowing Cyber Ship) */
+          if (!gameOver) {
+             ctx.shadowBlur = 18;
+             ctx.shadowColor = COL_DINO;
+             ctx.strokeStyle = COL_DINO;
+             ctx.fillStyle = COL_DINO;
+             ctx.lineWidth = 2.5;
+             
+             ctx.save();
+             ctx.translate(dino.x, dino.y);
+             // Sleek Bobbing Animation
+             if (dino.grounded && speed > 0) {
+               ctx.translate(0, Math.sin(frame * 0.45) * 2.5);
+             }
+             
+             ctx.beginPath();
+             // Tail
+             ctx.moveTo(0, dino.h);
+             // Nose
+             ctx.lineTo(dino.w, dino.h * 0.7);
+             // Fin Over
+             ctx.lineTo(dino.w * 0.4, 0);
+             // Base Indent
+             ctx.lineTo(dino.w * 0.2, dino.h * 0.8);
+             ctx.closePath();
+             
+             ctx.stroke();
+             // Plasma Core
+             ctx.fillStyle = "#FFFFFF";
+             ctx.fill();
+             ctx.restore();
+          }
+
+          ctx.restore(); // Restores from camera shake & blend modes
+
+          /* ── HUD and State Overlays ── */
+          if (gameOver) {
+            ctx.fillStyle = "#FFF";
+            ctx.font = "italic 32px 'Cormorant Garamond', Georgia, serif";
+            ctx.textAlign = "center";
+            ctx.fillText("SYSTEM FAILURE", W / 2, H / 2 - 10);
+            ctx.font = "13px 'DM Sans', sans-serif";
+            ctx.fillStyle = COL_GOLD;
+            ctx.fillText("Tap or Space to Reboot", W / 2, H / 2 + 18);
+            ctx.textAlign = "start";
+          } else if (!started) {
+            ctx.fillStyle = "#FFF";
+            ctx.font = "italic 26px 'Cormorant Garamond', Georgia, serif";
+            ctx.textAlign = "center";
+            ctx.shadowBlur = 12; ctx.shadowColor = "#FFF";
+            ctx.fillText("INITIATE SEQUENCE [SPACE / TAP]", W / 2, H / 2 - 5);
+            ctx.shadowBlur = 0;
+            ctx.textAlign = "start";
           }
         }
 
-        loadInsights();
-
-        popTrigger.addEventListener("click", (e) => {
-          e.stopPropagation();
-          if (popover.classList.contains("open")) {
-            closePopover();
-          } else {
-            openPopover();
-            closePopoverSoon(4200);
-          }
-        });
-
-        popWrap.addEventListener("mouseenter", () => {
-          openPopover();
-        });
-        popWrap.addEventListener("mouseleave", () => {
-          closePopoverSoon(850);
-        });
-
-        document.addEventListener("click", (e) => {
-          if (!popWrap.contains(e.target)) {
-            closePopover();
-          }
-        });
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") closePopover();
-        });
+        function gameLoop() {
+          update();
+          draw();
+          requestAnimationFrame(gameLoop);
+        }
+        gameLoop();
       })();
     </script>
   </body>
