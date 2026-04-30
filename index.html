@@ -241,59 +241,188 @@
       .nav-game-btn {
         display: inline-flex;
         align-items: center;
-        gap: 0.45rem;
-        padding: 0.42rem 1rem;
+        gap: 0.5rem;
+        padding: 0.38rem 0.95rem 0.38rem 0.75rem;
         font-family: "DM Sans", sans-serif;
-        font-size: 0.65rem;
+        font-size: 0.63rem;
         font-weight: 500;
-        letter-spacing: 0.12em;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        color: #6ee7b7;
-        border: 1px solid rgba(110, 231, 183, 0.3);
+        color: var(--gold-light);
+        border: 1px solid rgba(201, 168, 76, 0.28);
         border-radius: 3px;
-        background: rgba(110, 231, 183, 0.06);
+        background: rgba(201, 168, 76, 0.05);
         text-decoration: none;
         position: relative;
         overflow: hidden;
-        transition: background 0.3s, border-color 0.3s, box-shadow 0.3s, color 0.3s, transform 0.25s;
-        animation: nav-game-pulse 3s ease-in-out infinite;
+        transition:
+          background 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+          border-color 0.35s,
+          box-shadow 0.35s,
+          color 0.3s,
+          transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: ngp-idle 4s ease-in-out infinite;
       }
-      @keyframes nav-game-pulse {
-        0%, 100% { box-shadow: 0 0 0 0 rgba(110, 231, 183, 0); }
-        50% { box-shadow: 0 0 14px 2px rgba(110, 231, 183, 0.18); }
+      @keyframes ngp-idle {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0); border-color: rgba(201, 168, 76, 0.28); }
+        50%  { box-shadow: 0 0 12px 1px rgba(201, 168, 76, 0.14); border-color: rgba(201, 168, 76, 0.42); }
       }
+
+      /* Shimmer sweep pseudo-element */
       .nav-game-btn::before {
         content: "";
         position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(110, 231, 183, 0.15) 0%, transparent 60%);
+        top: 0; left: -75%;
+        width: 55%;
+        height: 100%;
+        background: linear-gradient(
+          105deg,
+          transparent 0%,
+          rgba(226, 201, 126, 0.18) 50%,
+          transparent 100%
+        );
+        transform: skewX(-20deg);
         opacity: 0;
-        transition: opacity 0.3s;
+        transition: opacity 0.1s;
       }
+      .nav-game-btn:hover::before {
+        opacity: 1;
+        animation: ngp-shimmer 0.65s ease forwards;
+      }
+      @keyframes ngp-shimmer {
+        0%   { left: -75%; }
+        100% { left: 130%; }
+      }
+
+      /* Glass inner top-edge highlight */
+      .nav-game-btn::after {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(226, 201, 126, 0.45), transparent);
+        border-radius: 3px 3px 0 0;
+      }
+
       .nav-game-btn:hover {
-        background: rgba(110, 231, 183, 0.14);
-        border-color: rgba(110, 231, 183, 0.6);
-        box-shadow: 0 0 22px rgba(110, 231, 183, 0.22);
-        color: #a7f3d0;
-        transform: translateY(-1px);
+        background: rgba(201, 168, 76, 0.1);
+        border-color: rgba(201, 168, 76, 0.55);
+        box-shadow:
+          0 0 18px rgba(201, 168, 76, 0.12),
+          inset 0 0 14px rgba(201, 168, 76, 0.04);
+        color: var(--gold-light);
+        transform: translateY(-1.5px);
         animation: none;
       }
-      .nav-game-btn:hover::before { opacity: 1; }
-      .nav-game-btn:active { transform: translateY(0); }
-      .nav-game-btn .ng-dot {
-        width: 6px;
-        height: 6px;
+      .nav-game-btn:active { transform: translateY(0) scale(0.98); }
+
+      /* Icon wrapper — spins on hover */
+      .nav-game-btn .ng-icon {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
         border-radius: 50%;
-        background: #6ee7b7;
+        background: rgba(201, 168, 76, 0.1);
+        border: 1px solid rgba(201, 168, 76, 0.22);
         flex-shrink: 0;
-        animation: ng-blink 1.4s ease-in-out infinite;
+        transition: background 0.3s, border-color 0.3s, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .nav-game-btn:hover .ng-icon {
+        background: rgba(201, 168, 76, 0.18);
+        border-color: rgba(201, 168, 76, 0.5);
+        transform: rotate(360deg);
+      }
+      .nav-game-btn .ng-icon svg {
+        width: 10px;
+        height: 10px;
+        fill: var(--gold);
+        flex-shrink: 0;
+      }
+
+      /* Blinking live dot */
+      .nav-game-btn .ng-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--gold);
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+        animation: ng-blink 1.8s ease-in-out infinite;
+      }
+      .nav-game-btn .ng-dot::after {
+        content: "";
+        position: absolute;
+        inset: -3px;
+        border-radius: 50%;
+        background: rgba(201, 168, 76, 0.25);
+        animation: ng-ring 1.8s ease-in-out infinite;
       }
       @keyframes ng-blink {
         0%, 100% { opacity: 1; }
-        50% { opacity: 0.25; }
+        50% { opacity: 0.3; }
       }
-      .nav-game-btn span { position: relative; z-index: 1; }
-      .nav-game-btn .ng-dot { position: relative; z-index: 1; }
+      @keyframes ng-ring {
+        0%, 100% { transform: scale(1); opacity: 0.6; }
+        50% { transform: scale(1.8); opacity: 0; }
+      }
+
+      /* Label text */
+      .nav-game-btn .ng-label {
+        position: relative;
+        z-index: 1;
+        background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Mobile full-menu game link */
+      .mobile-game-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: 1.875rem; /* matches text-3xl */
+        text-decoration: none;
+        background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 60%, var(--gold-dim) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        background-size: 200% auto;
+        animation: mgl-shimmer 3.5s linear infinite;
+        position: relative;
+      }
+      @keyframes mgl-shimmer {
+        0%   { background-position: 0% center; }
+        100% { background-position: 200% center; }
+      }
+      .mobile-game-link .mgl-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid rgba(201, 168, 76, 0.35);
+        background: rgba(201, 168, 76, 0.08);
+        flex-shrink: 0;
+        -webkit-text-fill-color: initial;
+        color: var(--gold-light);
+        font-style: normal;
+        font-size: 1rem;
+        animation: mgl-icon-spin 8s linear infinite;
+      }
+      @keyframes mgl-icon-spin {
+        0%   { transform: rotate(0deg);   border-color: rgba(201,168,76,0.35); }
+        50%  { transform: rotate(180deg); border-color: rgba(201,168,76,0.65); }
+        100% { transform: rotate(360deg); border-color: rgba(201,168,76,0.35); }
+      }
 
       /* ─── Hero canvas ─── */
       #hero-canvas {
@@ -998,8 +1127,13 @@
         <!-- Game shortcut (desktop) -->
         <a href="#dino-game" class="hidden md:inline-flex nav-game-btn" id="nav-game-link" aria-label="Play Blade Runner game">
           <span class="ng-dot"></span>
-          <span>Play</span>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:relative;z-index:1;flex-shrink:0"><rect x="2" y="6" width="20" height="14" rx="3"/><path d="M12 10v4M10 12h4"/><circle cx="17" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="19" cy="11" r="1" fill="currentColor" stroke="none"/></svg>
+          <span class="ng-label">Play</span>
+          <span class="ng-icon">
+            <!-- Gamepad / controller icon -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 8h3v2H8v1H6v-1H5V8h2zm4 1h2v2h-2V9zm4-1h2v2h-1v1h-2v-1h1V8zM4 6a2 2 0 0 0-2 2l1 8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2l1-8a2 2 0 0 0-2-2H4z"/>
+            </svg>
+          </span>
         </a>
 
         <!-- Resume CTA (desktop) -->
@@ -1067,11 +1201,12 @@
       >
       <a
         href="#dino-game"
-        class="font-serif italic text-3xl"
-        style="color: #6ee7b7; text-shadow: 0 0 20px rgba(110,231,183,0.4)"
+        class="mobile-game-link"
         onclick="closeMobileMenu()"
-        >Play Game</a
       >
+        <span class="mgl-icon">🎮</span>
+        Play Game
+      </a>
     </div>
 
     <!-- ─── HERO ────────────────────────────────────────────── -->
