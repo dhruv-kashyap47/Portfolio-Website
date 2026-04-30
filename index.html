@@ -237,6 +237,64 @@
         -webkit-backdrop-filter: blur(18px);
       }
 
+      /* ─── Game nav button ─── */
+      .nav-game-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.42rem 1rem;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.65rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #6ee7b7;
+        border: 1px solid rgba(110, 231, 183, 0.3);
+        border-radius: 3px;
+        background: rgba(110, 231, 183, 0.06);
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.3s, border-color 0.3s, box-shadow 0.3s, color 0.3s, transform 0.25s;
+        animation: nav-game-pulse 3s ease-in-out infinite;
+      }
+      @keyframes nav-game-pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(110, 231, 183, 0); }
+        50% { box-shadow: 0 0 14px 2px rgba(110, 231, 183, 0.18); }
+      }
+      .nav-game-btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(110, 231, 183, 0.15) 0%, transparent 60%);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .nav-game-btn:hover {
+        background: rgba(110, 231, 183, 0.14);
+        border-color: rgba(110, 231, 183, 0.6);
+        box-shadow: 0 0 22px rgba(110, 231, 183, 0.22);
+        color: #a7f3d0;
+        transform: translateY(-1px);
+        animation: none;
+      }
+      .nav-game-btn:hover::before { opacity: 1; }
+      .nav-game-btn:active { transform: translateY(0); }
+      .nav-game-btn .ng-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #6ee7b7;
+        flex-shrink: 0;
+        animation: ng-blink 1.4s ease-in-out infinite;
+      }
+      @keyframes ng-blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.25; }
+      }
+      .nav-game-btn span { position: relative; z-index: 1; }
+      .nav-game-btn .ng-dot { position: relative; z-index: 1; }
+
       /* ─── Hero canvas ─── */
       #hero-canvas {
         position: absolute;
@@ -937,6 +995,13 @@
           >
         </div>
 
+        <!-- Game shortcut (desktop) -->
+        <a href="#dino-game" class="hidden md:inline-flex nav-game-btn" id="nav-game-link" aria-label="Play Blade Runner game">
+          <span class="ng-dot"></span>
+          <span>Play</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:relative;z-index:1;flex-shrink:0"><rect x="2" y="6" width="20" height="14" rx="3"/><path d="M12 10v4M10 12h4"/><circle cx="17" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="19" cy="11" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+
         <!-- Resume CTA (desktop) -->
         <a
           href="mailto:7468dhruv@gmail.com"
@@ -999,6 +1064,13 @@
         class="font-serif italic text-3xl gold-text"
         onclick="closeMobileMenu()"
         >Contact</a
+      >
+      <a
+        href="#dino-game"
+        class="font-serif italic text-3xl"
+        style="color: #6ee7b7; text-shadow: 0 0 20px rgba(110,231,183,0.4)"
+        onclick="closeMobileMenu()"
+        >Play Game</a
       >
     </div>
 
