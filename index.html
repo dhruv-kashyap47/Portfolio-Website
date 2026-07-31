@@ -9,7 +9,7 @@
     <title>Dhruv Kashyap Portfolio</title>
     <meta
       name="description"
-      content="Backend &amp; Full-Stack Software Engineer specializing in AI-powered systems, ensemble ML pipelines, RAG, and production-grade APIs."
+      content="Backend &amp; Full-Stack Engineer specializing in scalable backend systems, REST APIs, and AI/ML systems. Oracle Cloud Infrastructure &amp; AI Certified. Available for full-time roles."
     />
 
     <!-- Google Fonts: Cormorant Garamond (serif display) + DM Sans (body) -->
@@ -1099,6 +1099,12 @@
             >About</a
           >
           <a
+            href="#experience"
+            class="section-label hover:text-gold transition-colors"
+            style="color: var(--text-muted)"
+            >Experience</a
+          >
+          <a
             href="#projects"
             class="section-label hover:text-gold transition-colors"
             style="color: var(--text-muted)"
@@ -1176,6 +1182,12 @@
         >About</a
       >
       <a
+        href="#experience"
+        class="font-serif italic text-3xl gold-text"
+        onclick="closeMobileMenu()"
+        >Experience</a
+      >
+      <a
         href="#projects"
         class="font-serif italic text-3xl gold-text"
         onclick="closeMobileMenu()"
@@ -1244,7 +1256,7 @@
             <!-- Eyebrow -->
             <div class="flex items-center gap-3 mb-8 reveal">
               <div class="w-8 h-px" style="background: var(--gold)"></div>
-              <span class="section-label">Software Engineer</span>
+              <span class="section-label">Backend &amp; Full-Stack Engineer · AI/ML Systems</span>
             </div>
 
             <!-- Name -->
@@ -1262,8 +1274,7 @@
               class="mt-6 text-base leading-relaxed max-w-md reveal"
               style="color: var(--text-muted); transition-delay: 0.2s"
             >
-              Building production-grade backend systems, ensemble ML pipelines
-              &amp; AI-powered solutions. Oracle-certified in Cloud Infrastructure &amp; AI.
+              Backend &amp; AI/ML Engineer specializing in scalable backend systems, REST APIs, and intelligent applications. Oracle-certified in Cloud Infrastructure &amp; AI.
             </p>
 
             <!-- CTAs -->
@@ -1467,13 +1478,90 @@
     <!-- gold divider -->
     <div class="gold-line"></div>
 
+    <!-- ─── EXPERIENCE ──────────────────────────────────────── -->
+    <section id="experience" class="py-28 max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid lg:grid-cols-5 gap-16 items-start">
+        <!-- Label column -->
+        <div class="lg:col-span-1 reveal">
+          <div class="section-label mb-4" style="color: var(--gold)">
+            02 — Experience
+          </div>
+          <div class="w-8 h-px" style="background: var(--gold)"></div>
+        </div>
+
+        <!-- Main content -->
+        <div class="lg:col-span-4 reveal" style="transition-delay: 0.1s">
+          <h2
+            class="font-serif italic text-5xl lg:text-6xl mb-12"
+            style="color: var(--alabaster); line-height: 1.1"
+          >
+            Work <span class="gold-text">Experience</span>
+          </h2>
+
+          <!-- Tata Cummins -->
+          <div class="project-card p-8 mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+              <div>
+                <div class="section-label mb-1" style="color: var(--gold)">Software Engineering Intern</div>
+                <h3 class="font-serif text-2xl" style="color: var(--alabaster)">Tata Cummins Private Limited</h3>
+                <p class="text-sm mt-1" style="color: var(--text-muted)">Jamshedpur, India</p>
+              </div>
+              <div class="section-label flex-shrink-0" style="color: var(--text-muted)">2026</div>
+            </div>
+
+            <!-- Project title -->
+            <div class="mb-5 p-4 rounded-lg" style="background: rgba(201, 168, 76, 0.04); border: 1px solid rgba(201, 168, 76, 0.12)">
+              <div class="section-label mb-1" style="color: var(--gold)">CamTrace 360</div>
+              <p class="text-sm" style="color: var(--alabaster); font-weight: 400">Enterprise Camshaft Pre-Dispatch Inspection &amp; Traceability Platform</p>
+            </div>
+
+            <!-- Tech stack -->
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="skill-badge">React</span>
+              <span class="skill-badge">FastAPI</span>
+              <span class="skill-badge">Oracle 19c</span>
+              <span class="skill-badge">PL/SQL</span>
+              <span class="skill-badge">Docker</span>
+            </div>
+
+            <!-- Highlights -->
+            <div class="space-y-3">
+              <div class="proj-highlight">
+                <div class="proj-highlight-dot"></div>
+                <span>Engineered a production-grade enterprise manufacturing inspection &amp; traceability platform enabling end-to-end camshaft pre-dispatch quality workflows.</span>
+              </div>
+              <div class="proj-highlight">
+                <div class="proj-highlight-dot"></div>
+                <span>Designed a normalized Oracle 19c schema spanning 17 tables with referential integrity, indexing strategies, and 27 PL/SQL stored procedures.</span>
+              </div>
+              <div class="proj-highlight">
+                <div class="proj-highlight-dot"></div>
+                <span>Built secure RBAC workflows and JWT-authenticated FastAPI endpoints supporting dynamic inspection checklists, QR-based routing, and photo evidence management.</span>
+              </div>
+              <div class="proj-highlight">
+                <div class="proj-highlight-dot"></div>
+                <span>Developed immutable audit trail logging and forensic dashboards for manufacturing compliance and regulatory readiness.</span>
+              </div>
+              <div class="proj-highlight">
+                <div class="proj-highlight-dot"></div>
+                <span>Achieved 159+ automated tests covering API, database, and integration layers; supported Docker and LAN deployment with comprehensive documentation.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- gold divider -->
+    <div class="gold-line"></div>
+
     <!-- ─── PROJECTS ──────────────────────────────────────── -->
     <section id="projects" class="py-28 max-w-7xl mx-auto px-6 lg:px-12">
       <!-- Heading row -->
       <div class="flex items-end justify-between mb-20 reveal">
         <div>
           <div class="section-label mb-3" style="color: var(--gold)">
-            02 — Selected Work
+            03 — Selected Work
           </div>
           <h2
             class="font-serif italic text-5xl lg:text-6xl"
@@ -1750,7 +1838,7 @@
       <div class="grid lg:grid-cols-5 gap-16">
         <div class="lg:col-span-1 reveal">
           <div class="section-label mb-4" style="color: var(--gold)">
-            03 — Skills
+            04 — Skills
           </div>
           <div class="w-8 h-px" style="background: var(--gold)"></div>
         </div>
@@ -1774,6 +1862,8 @@
                 <span class="skill-badge">Python</span>
                 <span class="skill-badge">Java</span>
                 <span class="skill-badge">JavaScript</span>
+                <span class="skill-badge">SQL</span>
+                <span class="skill-badge">PL/SQL</span>
               </div>
             </div>
 
@@ -1788,6 +1878,9 @@
                 <span class="skill-badge">Spring Boot</span>
                 <span class="skill-badge">REST APIs</span>
                 <span class="skill-badge">JWT Auth</span>
+                <span class="skill-badge">RBAC</span>
+                <span class="skill-badge">WebSockets</span>
+                <span class="skill-badge">gRPC</span>
               </div>
             </div>
 
@@ -1816,12 +1909,13 @@
                 Databases
               </h4>
               <div class="flex flex-wrap gap-2">
+                <span class="skill-badge">Oracle 19c</span>
                 <span class="skill-badge">PostgreSQL</span>
                 <span class="skill-badge">MySQL</span>
                 <span class="skill-badge">MongoDB</span>
                 <span class="skill-badge">Redis</span>
                 <span class="skill-badge">Snowflake</span>
-                <span class="skill-badge">DiceDB</span>
+                <span class="skill-badge">SQLite</span>
               </div>
             </div>
 
@@ -1833,9 +1927,11 @@
               <div class="flex flex-wrap gap-2">
                 <span class="skill-badge">AWS</span>
                 <span class="skill-badge">Oracle Cloud</span>
+                <span class="skill-badge">Azure</span>
                 <span class="skill-badge">Docker</span>
+                <span class="skill-badge">Docker Compose</span>
                 <span class="skill-badge">GitHub Actions</span>
-                <span class="skill-badge">CI/CD</span>
+                <span class="skill-badge">Kubernetes</span>
               </div>
             </div>
 
@@ -1847,9 +1943,11 @@
               <div class="flex flex-wrap gap-2">
                 <span class="skill-badge">React.js</span>
                 <span class="skill-badge">Tailwind CSS</span>
+                <span class="skill-badge">Streamlit</span>
                 <span class="skill-badge">System Design</span>
                 <span class="skill-badge">Microservices</span>
                 <span class="skill-badge">OOP / SOLID</span>
+                <span class="skill-badge">ETL Pipelines</span>
               </div>
             </div>
           </div>
@@ -1866,7 +1964,7 @@
         <!-- Education column -->
         <div class="reveal">
           <div class="section-label mb-4" style="color: var(--gold)">
-            04 — Education
+            05 — Education
           </div>
           <div class="w-8 h-px mb-10" style="background: var(--gold)"></div>
 
@@ -1893,12 +1991,33 @@
         <!-- Achievements column -->
         <div class="reveal" style="transition-delay: 0.1s">
           <div class="section-label mb-4" style="color: var(--gold)">
-            05 — Achievements
+            06 — Achievements
           </div>
           <div class="w-8 h-px mb-10" style="background: var(--gold)"></div>
 
           <div class="space-y-8">
-            <!-- Achievement 1 -->
+            <!-- Achievement 1: PanIIT Hackathon -->
+            <div class="project-card p-6">
+              <div class="flex gap-4 items-start">
+                <div class="text-2xl">🏆</div>
+                <div>
+                  <h4
+                    class="font-serif text-lg mb-1"
+                    style="color: var(--alabaster)"
+                  >
+                    National Finalist — AI for Bharat Hackathon 2026
+                  </h4>
+                  <p class="text-xs mb-1" style="color: var(--gold)">
+                    PanIIT Bangalore Summit — organized by PanIIT Alumni, supported by Govt. of Karnataka
+                  </p>
+                  <p class="text-sm" style="color: var(--text-muted)">
+                    Recognized among top teams nationwide for an AI-driven solution at the prestigious PanIIT Bangalore Summit.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Achievement 2: NIT Jamshedpur -->
             <div class="project-card p-6">
               <div class="flex gap-4 items-start">
                 <div class="text-2xl">🥈</div>
@@ -1915,28 +2034,6 @@
                   <p class="text-sm" style="color: var(--text-muted)">
                     National-level technical fest with teams competing from
                     across the country.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Achievement 2 -->
-            <div class="project-card p-6">
-              <div class="flex gap-4 items-start">
-                <div class="text-2xl">🤖</div>
-                <div>
-                  <h4
-                    class="font-serif text-lg mb-1"
-                    style="color: var(--alabaster)"
-                  >
-                    Volunteer — Robotics Competition
-                  </h4>
-                  <p class="text-xs mb-1" style="color: var(--gold)">
-                    Robomind Robotics — Inter-School Event
-                  </p>
-                  <p class="text-sm" style="color: var(--text-muted)">
-                    Managed participant coordination and on-ground event
-                    logistics for inter-school robotics.
                   </p>
                 </div>
               </div>
@@ -1975,7 +2072,7 @@
     <section id="contact" class="py-28 max-w-7xl mx-auto px-6 lg:px-12">
       <div class="max-w-2xl mx-auto text-center reveal">
         <div class="section-label mb-4" style="color: var(--gold)">
-          06 — Get In Touch
+          07 — Get In Touch
         </div>
         <h2
           class="font-serif italic text-5xl lg:text-6xl mb-6"
@@ -2017,7 +2114,7 @@
           <span
             class="section-label"
             style="color: var(--text-muted); white-space: nowrap"
-            >Bhubaneswar, India</span
+            >Jamshedpur, India</span
           >
         </div>
       </div>
@@ -2030,7 +2127,7 @@
     <section id="dino-game" class="py-20 max-w-7xl mx-auto px-6 lg:px-12">
       <div class="reveal">
         <div class="section-label mb-3" style="color: var(--gold)">
-          07 — Take a Break
+          08 — Take a Break
         </div>
         <h2
           class="font-serif italic text-4xl lg:text-5xl mb-4"
